@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost-prod:5432/techchallenge
+    username: "root"
+    password: "m@_ssq@HJ7<h(+"
+    driver-class-name: org.postgresql.Driver
+azure:
+  entra-id:
+    tenant-id: "12"
+    tenant-name: "12"
+    client-id: "12"
+    client-secret: "12"
