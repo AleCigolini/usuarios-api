@@ -10,10 +10,10 @@ import java.util.TimeZone;
 @SpringBootApplication
 @EnableJpaRepositories
 @EnableFeignClients
-public class TechchallengeApiClienteApplication {
+public class TechChallengeApiClienteApplication {
 
     public static void main(String[] args) {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-        SpringApplication.run(TechchallengeApiClienteApplication.class, args);
+        SpringApplication.run(TechChallengeApiClienteApplication.class, args);
     }
 }
