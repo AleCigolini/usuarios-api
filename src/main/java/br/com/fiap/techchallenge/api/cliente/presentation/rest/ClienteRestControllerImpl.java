@@ -34,7 +34,7 @@ public class ClienteRestControllerImpl implements ClienteRestController {
     @Override
     @GetMapping("/id")
     @ResponseStatus(HttpStatus.OK)
-    public ClienteResponseDto buscarClientePorId(@RequestParam UUID id) {
+    public ClienteResponseDto buscarClientePorId(@RequestHeader("ID") UUID id) {
         return clienteController.buscarClientePorId(id);
     }
 
