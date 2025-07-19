@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/techchallenge
+    username: "root"
+    password: "m@_ssq@HJ7<h(+"
+    driver-class-name: org.postgresql.Driver
+azure:
+  entra-id:
+    tenant-id: "12"
+    tenant-name: "12"
+    client-id: "12"
+    client-secret: "12"
