@@ -1,9 +1,9 @@
 package br.com.fiap.techchallenge.api.core.config.exception.handler;
 
-import br.com.fiap.techchallengeapipedidoproduto.core.config.exception.domain.Problema;
-import br.com.fiap.techchallengeapipedidoproduto.core.config.exception.exceptions.EntidadeNaoEncontradaException;
-import br.com.fiap.techchallengeapipedidoproduto.core.config.exception.exceptions.NegocioException;
-import br.com.fiap.techchallengeapipedidoproduto.core.config.exception.exceptions.ValidacaoEntidadeException;
+import br.com.fiap.techchallenge.api.core.config.exception.domain.Problema;
+import br.com.fiap.techchallenge.api.core.config.exception.exceptions.EntidadeNaoEncontradaException;
+import br.com.fiap.techchallenge.api.core.config.exception.exceptions.NegocioException;
+import br.com.fiap.techchallenge.api.core.config.exception.exceptions.ValidacaoEntidadeException;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import org.junit.jupiter.api.AfterEach;
@@ -329,7 +329,7 @@ public class ApiExceptionHandlerTest {
         // when
         Problema.ProblemaBuilder builder = ReflectionTestUtils.invokeMethod(apiExceptionHandler, 
                 "createProblemBuilder", HttpStatus.BAD_REQUEST, 
-                br.com.fiap.techchallengeapipedidoproduto.core.config.exception.domain.ProblemaType.DADOS_INVALIDOS, 
+                br.com.fiap.techchallenge.api.core.config.exception.domain.ProblemaType.DADOS_INVALIDOS,
                 "Detalhe teste");
 
         Problema problema = builder.mensagemUsuario("Mensagem teste").build();
