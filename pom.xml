@@ -9,10 +9,10 @@
         <relativePath/>
     </parent>
     <groupId>br.com.fiap</groupId>
-    <artifactId>techchallenge-cliente</artifactId>
+    <artifactId>techchallenge-usuario</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>techchallenge-cliente</name>
-    <description>techchallenge-cliente</description>
+    <name>techchallenge-usuario</name>
+    <description>techchallenge-usuario</description>
     <url/>
     <licenses>
         <license/>

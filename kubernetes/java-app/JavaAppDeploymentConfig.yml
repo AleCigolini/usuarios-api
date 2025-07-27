@@ -19,14 +19,14 @@ spec:
     spec:
       containers:
         - name: java-app
-          image: alecigolini/fiap-techchallenge03:latest
+          image: alecigolini/fiap-techchallengeapicliente:latest
           ports:
             - containerPort: 8080
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://techchallenge-dev.postgres.database.azure.com:5432/postgres
+              value: jdbc:postgresql://cliente-dev.postgres.database.azure.com:5432/postgres
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -37,31 +37,6 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: POSTGRES_PASSWORD
-            - name: CLIENT_MERCADO_PAGO_USER_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MP_USER_ID
-            - name: CLIENT_MERCADO_PAGO_POS_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MP_POS_ID
-            - name: CLIENT_MERCADO_PAGO_EXTERNAL_STORE_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MP_EXTERNAL_STORE_ID
-            - name: CLIENT_MERCADO_PAGO_EXTERNAL_POS_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MP_EXTERNAL_POS_ID
-            - name: CLIENT_MERCADO_PAGO_AUTH_HEADER
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MP_AUTH_HEADER
             - name: AZURE_ENTRA_ID_TENANT_ID
               valueFrom:
                 secretKeyRef:
@@ -118,26 +93,19 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: java-app
-  annotations:
-    cert-manager.io/issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  name: java-app-ingress
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /
+          - path: /clientes
             pathType: Prefix
             backend:
               service:
                 name: java-app
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - techchallenge.app.br
-      secretName: meu-certificado-tls
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler

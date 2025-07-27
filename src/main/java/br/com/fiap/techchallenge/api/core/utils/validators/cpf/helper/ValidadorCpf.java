@@ -1,9 +1,10 @@
 package br.com.fiap.techchallenge.api.core.utils.validators.cpf.helper;
 
 public class ValidadorCpf {
+    private static String CPF_CLIENTE_PADRAO = "00000000000";
+
     public static boolean isValidCPF(String cpf) {
-        // valida se o cpf contém 11 dígitos numéricos e se não é uma sequência de números iguais
-        if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) {
+        if (cpf.length() != 11 || (cpf.matches("(\\d)\\1{10}") && !cpf.equals(CPF_CLIENTE_PADRAO))) {
             return(false);
         }
         return true;

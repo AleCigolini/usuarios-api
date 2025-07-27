@@ -2,7 +2,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: techchallenge-api-cliente
+    name: techchallenge-api-usuario
   jpa:
     properties:
       hibernate:
@@ -20,9 +20,12 @@ springdoc:
     docExpansion: none
 tag:
   swagger:
-    cliente:
-        name: "Cliente"
-        description: "API de Clientes"
+    usuario:
+        name: "Usuario"
+        description: "API de Usuarios"
+    role:
+        name: "Role"
+        description: "API de Roles"
 azure:
   entra-id:
     tenant-id: "${AZURE_ENTRA_ID_TENANT_ID}"
