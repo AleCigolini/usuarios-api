@@ -8,9 +8,8 @@ CREATE TABLE usuario (
     data_atualizacao TIMESTAMP DEFAULT now()
 );
 
-INSERT INTO usuario (id, cpf)
-    VALUES ('e389406d-5531-4acf-a354-be5cc46a8cd4', '00000000000');
-
+INSERT INTO usuario (id, nome, cpf)
+    VALUES ('e389406d-5531-4acf-a354-be5cc46a8cd4', 'Usuário padrão do sistema', '00000000000');
 
 -- -- --
 
