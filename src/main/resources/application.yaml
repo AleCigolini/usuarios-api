@@ -23,6 +23,9 @@ tag:
     usuario:
         name: "Usuario"
         description: "API de Usuarios"
+    role:
+        name: "Role"
+        description: "API de Roles"
 azure:
   entra-id:
     tenant-id: "${AZURE_ENTRA_ID_TENANT_ID}"
