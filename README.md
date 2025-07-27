@@ -6,9 +6,9 @@
 - Sandro Nascimento
 
 ## Objetivo
-Desenvolvida para otimizar a experiência do cliente e a gestão da lanchonete, esta aplicação backend atua como o coração do sistema de autoatendimento. 
-Responsável por administrar de forma eficiente e segura todas as operações, desde a criação e gestão de produtos até o processamento de pedidos e a manutenção de um banco de dados completo sobre os clientes. 
-Através da integração com o sistema de frente de loja, a aplicação garante a disponibilidade de informações precisas e atualizadas, proporcionando ao cliente autonomia na escolha e personalização dos pedidos, 
+Desenvolvida para otimizar a experiência do usuario e a gestão da lanchonete, esta aplicação backend atua como o coração do sistema de autoatendimento. 
+Responsável por administrar de forma eficiente e segura todas as operações, desde a criação e gestão de produtos até o processamento de pedidos e a manutenção de um banco de dados completo sobre os usuarios. 
+Através da integração com o sistema de frente de loja, a aplicação garante a disponibilidade de informações precisas e atualizadas, proporcionando ao usuario autonomia na escolha e personalização dos pedidos, 
 e à lanchonete, uma ferramenta poderosa para aumentar a eficiência operacional, reduzir custos e elevar a satisfação do consumidor.
 
 ## Arquitetura
@@ -101,7 +101,7 @@ http://localhost:8080/pedidos
 - Corpo da requisição:
 ```
 {
-  "cliente": {
+  "usuario": {
     "cpf": "12022425022",
     "email": "teste.usuario@email.com"
   },
@@ -281,40 +281,40 @@ http://localhost:8080/produtos/categoria/d5b5a378-3862-4436-bdcc-29d8c8a2ee65
 ```
 <br/>
 
-### Cliente
-- Criar cliente - POST
+### Usuario
+- Criar usuario - POST
 ```
-http://localhost:8080/clientes
+http://localhost:8080/usuarios
 ```
-Corpo da requisição. Cliente com e-mail e CPF:
+Corpo da requisição. Usuario com e-mail e CPF:
 ```
 {
-  "nome": "Nome cliente",
+  "nome": "Nome usuario",
   "email": "teste@gmail.com",
   "cpf": "13742443097"
 }
 ```
 
-Corpo da requisição. Cliente com e-mail:
+Corpo da requisição. Usuario com e-mail:
 ```
 {
-  "nome": "Nome cliente",
+  "nome": "Nome usuario",
   "email": "teste@gmail.com",
   "cpf": ""
 }
 ```
 
-Corpo da requisição. Cliente com CPF:
+Corpo da requisição. Usuario com CPF:
 ```
 {
-  "nome": "Nome cliente",
+  "nome": "Nome usuario",
   "email": "",
   "cpf": "13742443097"
 }
 ```
-- Buscar cliente pelo CPF - GET
+- Buscar usuario pelo CPF - GET
 ```
-http://localhost:8080/clientes/cpf
+http://localhost:8080/usuarios/cpf
 ```
 Corpo da requisição:
 ```
@@ -323,9 +323,9 @@ Corpo da requisição:
 }
 ```
 
-- Buscar cliente pelo E-mail - GET
+- Buscar usuario pelo E-mail - GET
 ```
-http://localhost:8080/clientes/email
+http://localhost:8080/usuarios/email
 ```
 Corpo da requisição:
 ```
@@ -334,9 +334,9 @@ Corpo da requisição:
 }
 ```
 
-- Buscar cliente pelo ID - GET
+- Buscar usuario pelo ID - GET
 ```
-http://localhost:8080/clientes/id
+http://localhost:8080/usuarios/id
 ```
 Corpo da requisição:
 ```

@@ -7,9 +7,10 @@ import java.util.InputMismatchException;
 
 public class Cpf {
     private final String value;
+    private static String CPF_CLIENTE_PADRAO = "00000000000";
 
     public Cpf(String value) {
-        if (!isValid(value)) {
+        if (!isValid(value) && !value.equals(CPF_CLIENTE_PADRAO)) {
             throw new ValidacaoEntidadeException("CPF inválido");
         }
         this.value = value;
