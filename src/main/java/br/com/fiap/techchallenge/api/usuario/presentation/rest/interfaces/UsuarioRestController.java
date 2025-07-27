@@ -85,6 +85,21 @@ public interface UsuarioRestController {
     UsuarioResponseDto cadastrarUsuario(@Valid UsuarioRequestDto usuarioRequestDto);
 
     /**
+     * Cadastrar um novo usuario admin.
+     *
+     * @param usuarioRequestDto objeto contendo os dados para cadastro do usuario, possuindo cpf ou e-mail obrigatóriamente e de maneira válida
+     * @return {@link ResponseEntity< UsuarioResponseDto >}
+     */
+    @Operation(summary = "Cadastrar usuario",
+            responses = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(responseCode = "400", description = "Erro no cadastro do usuario/Erros de validação",
+                            content = @Content(schema = @Schema(ref = "Problema"))
+                    ),
+            })
+    UsuarioResponseDto cadastrarUsuarioAdmin(@Valid UsuarioRequestDto usuarioRequestDto);
+
+    /**
      * Identificar um usuario a partir de seu CPF ou e-mail.
      *
      * @param identificarUsuarioDto objeto contendo os dados para a identificação do usuario, possuindo cpf obrigatóriamente e de maneira válida

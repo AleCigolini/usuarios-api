@@ -1,5 +1,14 @@
 package br.com.fiap.techchallenge.api.usuario.application.controller.impl;
 
+import br.com.fiap.techchallenge.api.core.utils.domain.Cpf;
+import br.com.fiap.techchallenge.api.core.utils.domain.Email;
+import br.com.fiap.techchallenge.api.role.application.gateway.RoleGateway;
+import br.com.fiap.techchallenge.api.role.application.gateway.impl.RoleGatewayImpl;
+import br.com.fiap.techchallenge.api.role.application.mapper.DatabaseRoleMapper;
+import br.com.fiap.techchallenge.api.role.application.usecase.ConsultarRoleUseCase;
+import br.com.fiap.techchallenge.api.role.application.usecase.impl.ConsultarRoleUseCaseImpl;
+import br.com.fiap.techchallenge.api.role.common.interfaces.RoleDatabase;
+import br.com.fiap.techchallenge.api.role.domain.Role;
 import br.com.fiap.techchallenge.api.usuario.application.controller.UsuarioController;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.AuthenticationGateway;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.UsuarioGateway;
@@ -12,14 +21,12 @@ import br.com.fiap.techchallenge.api.usuario.application.usecase.ConsultarUsuari
 import br.com.fiap.techchallenge.api.usuario.application.usecase.SalvarUsuarioUseCase;
 import br.com.fiap.techchallenge.api.usuario.application.usecase.impl.ConsultarUsuarioUseCaseImpl;
 import br.com.fiap.techchallenge.api.usuario.application.usecase.impl.SalvarUsuarioUseCaseImpl;
-import br.com.fiap.techchallenge.api.usuario.common.domain.dto.request.UsuarioRequestDto;
 import br.com.fiap.techchallenge.api.usuario.common.domain.dto.request.IdentificarUsuarioDto;
+import br.com.fiap.techchallenge.api.usuario.common.domain.dto.request.UsuarioRequestDto;
 import br.com.fiap.techchallenge.api.usuario.common.domain.dto.response.UsuarioResponseDto;
 import br.com.fiap.techchallenge.api.usuario.common.interfaces.UsuarioAuthentication;
 import br.com.fiap.techchallenge.api.usuario.common.interfaces.UsuarioDatabase;
 import br.com.fiap.techchallenge.api.usuario.domain.Usuario;
-import br.com.fiap.techchallenge.api.core.utils.domain.Cpf;
-import br.com.fiap.techchallenge.api.core.utils.domain.Email;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
@@ -28,17 +35,21 @@ import java.util.UUID;
 public class UsuarioControllerImpl implements UsuarioController {
     private final SalvarUsuarioUseCase salvarUsuarioUseCase;
     private final ConsultarUsuarioUseCase consultarUsuarioUseCase;
+    private final ConsultarRoleUseCase consultarRoleUseCase;
 
     private final RequestUsuarioMapper requestUsuarioMapper;
     private final UsuarioPresenter usuarioPresenter;
 
-    public UsuarioControllerImpl(UsuarioDatabase usuarioDatabase, DatabaseUsuarioMapper mapper, RequestUsuarioMapper requestUsuarioMapper, UsuarioPresenter usuarioPresenter, UsuarioAuthentication usuarioAuthentication) {
+    public UsuarioControllerImpl(UsuarioDatabase usuarioDatabase, DatabaseUsuarioMapper mapper, RequestUsuarioMapper requestUsuarioMapper,
+                                 UsuarioPresenter usuarioPresenter, UsuarioAuthentication usuarioAuthentication, RoleDatabase roleDatabase, DatabaseRoleMapper databaseRoleMapper) {
         this.requestUsuarioMapper = requestUsuarioMapper;
         this.usuarioPresenter = usuarioPresenter;
-        final UsuarioGateway usuarioGateway = new UsuarioGatewayImpl(usuarioDatabase, mapper);
+        final UsuarioGateway usuarioGateway = new UsuarioGatewayImpl(usuarioDatabase, mapper, databaseRoleMapper);
+        final RoleGateway roleGateway = new RoleGatewayImpl(roleDatabase, databaseRoleMapper);
         final AuthenticationGateway authenticationGateway = new AuthenticationGatewayImpl(usuarioAuthentication);
         this.salvarUsuarioUseCase = new SalvarUsuarioUseCaseImpl(usuarioGateway, authenticationGateway);
         this.consultarUsuarioUseCase = new ConsultarUsuarioUseCaseImpl(usuarioGateway);
+        this.consultarRoleUseCase = new ConsultarRoleUseCaseImpl(roleGateway);
     }
 
     @Override
@@ -58,7 +69,16 @@ public class UsuarioControllerImpl implements UsuarioController {
 
     @Override
     public UsuarioResponseDto cadastrarUsuario(UsuarioRequestDto usuarioRequestDto) {
-        return usuarioPresenter.toResponse(salvarUsuarioUseCase.salvarUsuario(requestUsuarioMapper.requestDtoToDomain(usuarioRequestDto)));
+        Role role = consultarRoleUseCase.buscarRolePorNome("USUARIO");
+
+        return usuarioPresenter.toResponse(salvarUsuarioUseCase.salvarUsuario(requestUsuarioMapper.requestDtoToDomain(usuarioRequestDto), role));
+    }
+
+    @Override
+    public UsuarioResponseDto cadastrarUsuarioAdmin(UsuarioRequestDto usuarioRequestDto) {
+        Role role = consultarRoleUseCase.buscarRolePorNome("ADMIN");
+
+        return usuarioPresenter.toResponse(salvarUsuarioUseCase.salvarUsuario(requestUsuarioMapper.requestDtoToDomain(usuarioRequestDto), role));
     }
 
     @Override
@@ -68,6 +88,7 @@ public class UsuarioControllerImpl implements UsuarioController {
         if (usuarioExistente != null) {
             return usuarioPresenter.toResponse(usuarioExistente);
         }
-        return usuarioPresenter.toResponse(salvarUsuarioUseCase.salvarUsuario(usuarioParametros));
+        Role role = consultarRoleUseCase.buscarRolePorNome("USUARIO");
+        return usuarioPresenter.toResponse(salvarUsuarioUseCase.salvarUsuario(usuarioParametros, role));
     }
 }

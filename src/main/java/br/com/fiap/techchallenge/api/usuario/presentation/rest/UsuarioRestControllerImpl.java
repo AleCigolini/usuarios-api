@@ -46,6 +46,13 @@ public class UsuarioRestControllerImpl implements UsuarioRestController {
     }
 
     @Override
+    @PostMapping("/admin")
+    @ResponseStatus(HttpStatus.OK)
+    public UsuarioResponseDto cadastrarUsuarioAdmin(@RequestBody UsuarioRequestDto usuarioRequestDto) {
+        return usuarioController.cadastrarUsuarioAdmin(usuarioRequestDto);
+    }
+
+    @Override
     @PostMapping("/identificacao")
     @ResponseStatus(HttpStatus.OK)
     public UsuarioResponseDto identificarUsuario(@RequestBody IdentificarUsuarioDto identificarUsuarioDto) {

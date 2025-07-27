@@ -1,5 +1,6 @@
 package br.com.fiap.techchallenge.api.usuario.application.usecase;
 
+import br.com.fiap.techchallenge.api.role.domain.Role;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.AuthenticationGateway;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.UsuarioGateway;
 import br.com.fiap.techchallenge.api.usuario.application.usecase.impl.SalvarUsuarioUseCaseImpl;
@@ -44,7 +45,7 @@ class SalvarUsuarioUseCaseImplTest {
         when(authenticationGateway.isUsuarioExistente(usuario)).thenReturn(false);
         when(usuarioGateway.salvarUsuario(usuario)).thenReturn(usuario);
 
-        Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario);
+        Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario, new Role());
 
         assertEquals(usuario, resultado);
         verify(usuarioGateway).salvarUsuario(usuario);
@@ -60,7 +61,7 @@ class SalvarUsuarioUseCaseImplTest {
         when(authenticationGateway.isUsuarioExistente(usuario)).thenReturn(false);
         when(usuarioGateway.salvarUsuario(usuario)).thenReturn(usuario);
 
-        Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario);
+        Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario, new Role());
 
         assertEquals(usuario, resultado);
         verify(usuarioGateway).salvarUsuario(usuario);
@@ -76,7 +77,7 @@ class SalvarUsuarioUseCaseImplTest {
         when(authenticationGateway.isUsuarioExistente(usuario)).thenReturn(true);
         when(usuarioGateway.salvarUsuario(usuario)).thenReturn(usuario);
 
-        Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario);
+        Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario, new Role());
 
         assertEquals(usuario, resultado);
         verify(usuarioGateway).salvarUsuario(usuario);
@@ -91,7 +92,7 @@ class SalvarUsuarioUseCaseImplTest {
                 .thenReturn(List.of(criarUsuario()));
 
         UsuarioValidacaoException exception = assertThrows(UsuarioValidacaoException.class,
-                () -> salvarUsuarioUseCase.salvarUsuario(usuario));
+                () -> salvarUsuarioUseCase.salvarUsuario(usuario, new Role()));
 
         assertTrue(exception.getMessage().contains("Já existe um usuario cadastrado com o CPF informado."));
         verify(usuarioGateway, never()).salvarUsuario(any());
@@ -107,7 +108,7 @@ class SalvarUsuarioUseCaseImplTest {
                 .thenReturn(List.of(criarUsuario()));
 
         UsuarioValidacaoException exception = assertThrows(UsuarioValidacaoException.class,
-                () -> salvarUsuarioUseCase.salvarUsuario(usuario));
+                () -> salvarUsuarioUseCase.salvarUsuario(usuario, new Role()));
 
         assertTrue(exception.getMessage().contains("Já existe um usuario cadastrado com o e-mail informado."));
         verify(usuarioGateway, never()).salvarUsuario(any());
@@ -122,7 +123,7 @@ class SalvarUsuarioUseCaseImplTest {
         when(usuarioGateway.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(List.of(criarUsuario()));
 
         UsuarioValidacaoException exception = assertThrows(UsuarioValidacaoException.class,
-                () -> salvarUsuarioUseCase.salvarUsuario(usuario));
+                () -> salvarUsuarioUseCase.salvarUsuario(usuario, new Role()));
 
         assertTrue(exception.getMessage().contains("Já existe um usuario cadastrado com o CPF informado."));
         assertTrue(exception.getMessage().contains("Já existe um usuario cadastrado com o e-mail informado."));

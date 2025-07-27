@@ -1,5 +1,7 @@
 package br.com.fiap.techchallenge.api.usuario.application.gateway;
 
+import br.com.fiap.techchallenge.api.role.application.mapper.DatabaseRoleMapper;
+import br.com.fiap.techchallenge.api.role.common.domain.entity.JpaRoleEntity;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.impl.UsuarioGatewayImpl;
 import br.com.fiap.techchallenge.api.usuario.application.mapper.DatabaseUsuarioMapper;
 import br.com.fiap.techchallenge.api.usuario.common.domain.entity.JpaUsuarioEntity;
@@ -24,12 +26,15 @@ class UsuarioGatewayImplTest {
     private UsuarioDatabase usuarioDatabase;
     private DatabaseUsuarioMapper mapper;
     private UsuarioGatewayImpl usuarioGateway;
+    private DatabaseRoleMapper databaseRoleMapper;
 
     @BeforeEach
     void setUp() {
         usuarioDatabase = mock(UsuarioDatabase.class);
         mapper = mock(DatabaseUsuarioMapper.class);
-        usuarioGateway = new UsuarioGatewayImpl(usuarioDatabase, mapper);
+        databaseRoleMapper = mock(DatabaseRoleMapper.class);
+        when(databaseRoleMapper.toJpaRoleEntity(any())).thenReturn(new JpaRoleEntity());
+        usuarioGateway = new UsuarioGatewayImpl(usuarioDatabase, mapper, databaseRoleMapper);
     }
 
     @Test

@@ -1,5 +1,11 @@
 package br.com.fiap.techchallenge.api.usuario.application.controller;
 
+import br.com.fiap.techchallenge.api.core.utils.domain.Cpf;
+import br.com.fiap.techchallenge.api.core.utils.domain.Email;
+import br.com.fiap.techchallenge.api.role.application.mapper.DatabaseRoleMapper;
+import br.com.fiap.techchallenge.api.role.application.usecase.impl.ConsultarRoleUseCaseImpl;
+import br.com.fiap.techchallenge.api.role.common.interfaces.RoleDatabase;
+import br.com.fiap.techchallenge.api.role.domain.Role;
 import br.com.fiap.techchallenge.api.usuario.application.controller.impl.UsuarioControllerImpl;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.impl.AuthenticationGatewayImpl;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.impl.UsuarioGatewayImpl;
@@ -8,14 +14,12 @@ import br.com.fiap.techchallenge.api.usuario.application.mapper.RequestUsuarioMa
 import br.com.fiap.techchallenge.api.usuario.application.presenter.UsuarioPresenter;
 import br.com.fiap.techchallenge.api.usuario.application.usecase.impl.ConsultarUsuarioUseCaseImpl;
 import br.com.fiap.techchallenge.api.usuario.application.usecase.impl.SalvarUsuarioUseCaseImpl;
-import br.com.fiap.techchallenge.api.usuario.common.domain.dto.request.UsuarioRequestDto;
 import br.com.fiap.techchallenge.api.usuario.common.domain.dto.request.IdentificarUsuarioDto;
+import br.com.fiap.techchallenge.api.usuario.common.domain.dto.request.UsuarioRequestDto;
 import br.com.fiap.techchallenge.api.usuario.common.domain.dto.response.UsuarioResponseDto;
 import br.com.fiap.techchallenge.api.usuario.common.interfaces.UsuarioAuthentication;
 import br.com.fiap.techchallenge.api.usuario.common.interfaces.UsuarioDatabase;
 import br.com.fiap.techchallenge.api.usuario.domain.Usuario;
-import br.com.fiap.techchallenge.api.core.utils.domain.Cpf;
-import br.com.fiap.techchallenge.api.core.utils.domain.Email;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
@@ -34,6 +38,8 @@ public class UsuarioControllerImplTest {
     private RequestUsuarioMapper requestUsuarioMapper;
     private UsuarioPresenter usuarioPresenter;
     private UsuarioAuthentication usuarioAuthentication;
+    private RoleDatabase roleDatabase;
+    private DatabaseRoleMapper databaseRoleMapper;
 
     @BeforeEach
     void setUp() {
@@ -67,7 +73,9 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication
+                    usuarioAuthentication,
+                    roleDatabase,
+                    databaseRoleMapper
             );
 
             UsuarioResponseDto response = controller.buscarUsuarioPorCpf("12697331093");
@@ -86,10 +94,15 @@ public class UsuarioControllerImplTest {
                 MockedConstruction<SalvarUsuarioUseCaseImpl> mockedSalvarUseCase =
                         mockConstruction(SalvarUsuarioUseCaseImpl.class, (mock, context) -> {
                             Usuario usuario = new Usuario();
-                            when(mock.salvarUsuario(any())).thenReturn(usuario);
+                            when(mock.salvarUsuario(any(), any())).thenReturn(usuario);
                         });
                 MockedConstruction<ConsultarUsuarioUseCaseImpl> mockedConsultarUseCase =
-                        mockConstruction(ConsultarUsuarioUseCaseImpl.class)
+                        mockConstruction(ConsultarUsuarioUseCaseImpl.class);
+                MockedConstruction<ConsultarRoleUseCaseImpl> consultarRoleUseCaseMockedConstruction =
+                        mockConstruction(ConsultarRoleUseCaseImpl.class, (mock, context) -> {
+                            Role role = new Role();
+                            when(mock.buscarRolePorNome(anyString())).thenReturn(role);
+                        })
         ) {
             Usuario usuario = new Usuario();
             UsuarioResponseDto responseEsperado = new UsuarioResponseDto();
@@ -102,7 +115,9 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication
+                    usuarioAuthentication,
+                    roleDatabase,
+                    databaseRoleMapper
             );
 
             UsuarioRequestDto dto = new UsuarioRequestDto(); // Popule conforme necessário
@@ -135,7 +150,9 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication
+                    usuarioAuthentication,
+                    roleDatabase,
+                    databaseRoleMapper
             );
 
             UsuarioResponseDto response = controller.buscarUsuarioPorEmail("email@teste.com");
@@ -167,7 +184,9 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication
+                    usuarioAuthentication,
+                    roleDatabase,
+                    databaseRoleMapper
             );
 
             UsuarioResponseDto response = controller.buscarUsuarioPorId(UUID.randomUUID());
@@ -189,6 +208,11 @@ public class UsuarioControllerImplTest {
                         mockConstruction(ConsultarUsuarioUseCaseImpl.class, (mock, context) -> {
                             Usuario usuario = new Usuario();
                             when(mock.buscarUsuarioPorEmailCpf(any(Cpf.class), any(Email.class), any())).thenReturn(usuario);
+                        });
+                MockedConstruction<ConsultarRoleUseCaseImpl> consultarRoleUseCaseMockedConstruction =
+                        mockConstruction(ConsultarRoleUseCaseImpl.class, (mock, context) -> {
+                            Role role = new Role();
+                            when(mock.buscarRolePorNome(anyString())).thenReturn(role);
                         })
         ) {
             Usuario usuario = new Usuario();
@@ -204,7 +228,9 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication
+                    usuarioAuthentication,
+                    roleDatabase,
+                    databaseRoleMapper
             );
 
             UsuarioResponseDto response = controller.identificarUsuario(new IdentificarUsuarioDto());
@@ -226,6 +252,11 @@ public class UsuarioControllerImplTest {
                         mockConstruction(ConsultarUsuarioUseCaseImpl.class, (mock, context) -> {
                             Usuario usuario = new Usuario();
                             when(mock.buscarUsuarioPorEmailCpf(any(Cpf.class), any(Email.class), any())).thenReturn(null);
+                        });
+                MockedConstruction<ConsultarRoleUseCaseImpl> consultarRoleUseCaseMockedConstruction =
+                        mockConstruction(ConsultarRoleUseCaseImpl.class, (mock, context) -> {
+                            Role role = new Role();
+                            when(mock.buscarRolePorNome(anyString())).thenReturn(role);
                         })
         ) {
             Usuario usuario = new Usuario();
@@ -241,7 +272,9 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication
+                    usuarioAuthentication,
+                    roleDatabase,
+                    databaseRoleMapper
             );
 
             UsuarioResponseDto response = controller.identificarUsuario(new IdentificarUsuarioDto());

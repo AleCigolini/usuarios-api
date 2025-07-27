@@ -4,6 +4,7 @@ package br.com.fiap.techchallenge.api.usuario.domain;
 import br.com.fiap.techchallenge.api.core.utils.domain.Cpf;
 import br.com.fiap.techchallenge.api.core.utils.domain.DominioBase;
 import br.com.fiap.techchallenge.api.core.utils.domain.Email;
+import br.com.fiap.techchallenge.api.role.domain.Role;
 
 public class Usuario extends DominioBase {
 
@@ -11,6 +12,7 @@ public class Usuario extends DominioBase {
     private String nome;
     private Email email;
     private Cpf cpf;
+    private Role role;
 
 
     public String getId() {
@@ -43,6 +45,14 @@ public class Usuario extends DominioBase {
 
     public void setCpf(Cpf cpf) {
         this.cpf = cpf;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
 

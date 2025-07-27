@@ -1,5 +1,6 @@
 package br.com.fiap.techchallenge.api.usuario.application.gateway.impl;
 
+import br.com.fiap.techchallenge.api.role.application.mapper.DatabaseRoleMapper;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.UsuarioGateway;
 import br.com.fiap.techchallenge.api.usuario.application.mapper.DatabaseUsuarioMapper;
 import br.com.fiap.techchallenge.api.usuario.common.interfaces.UsuarioDatabase;
@@ -19,10 +20,13 @@ import java.util.stream.Collectors;
 public class UsuarioGatewayImpl implements UsuarioGateway {
     private UsuarioDatabase usuarioDatabase;
     private DatabaseUsuarioMapper mapper;
+    private DatabaseRoleMapper databaseRoleMapper;
 
     @Override
     public Usuario salvarUsuario(Usuario usuario) {
+        final var role = databaseRoleMapper.toJpaRoleEntity(usuario.getRole());
         final var usuarioEntity = mapper.toJpaUsuarioEntity(usuario);
+        usuarioEntity.setJpaRoleEntity(role);
         return mapper.toUsuario(usuarioDatabase.salvarUsuario(usuarioEntity));
     }
 

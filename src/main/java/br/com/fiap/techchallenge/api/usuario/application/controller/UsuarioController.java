@@ -11,5 +11,6 @@ public interface UsuarioController {
     UsuarioResponseDto buscarUsuarioPorEmail(String email);
     UsuarioResponseDto buscarUsuarioPorId(UUID id);
     UsuarioResponseDto cadastrarUsuario(UsuarioRequestDto usuarioRequestDto);
+    UsuarioResponseDto cadastrarUsuarioAdmin(UsuarioRequestDto usuarioRequestDto);
     UsuarioResponseDto identificarUsuario(IdentificarUsuarioDto identificarUsuarioDto);
 }

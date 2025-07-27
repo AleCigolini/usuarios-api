@@ -1,5 +1,6 @@
 package br.com.fiap.techchallenge.api.usuario.application.usecase.impl;
 
+import br.com.fiap.techchallenge.api.role.domain.Role;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.AuthenticationGateway;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.UsuarioGateway;
 import br.com.fiap.techchallenge.api.usuario.application.usecase.SalvarUsuarioUseCase;
@@ -19,9 +20,11 @@ public class SalvarUsuarioUseCaseImpl implements SalvarUsuarioUseCase {
     private AuthenticationGateway authenticationGateway;
 
     @Override
-    public Usuario salvarUsuario(Usuario usuario) {
+    public Usuario salvarUsuario(Usuario usuario, Role role) {
         this.validarUsuarioExistente(usuario);
         cadastrarUsuarioAutenticacao(usuario);
+
+        usuario.setRole(role);
 
         return usuarioGateway.salvarUsuario(usuario);
     }

@@ -1,6 +1,7 @@
 package br.com.fiap.techchallenge.api.usuario.common.domain.entity;
 
 import br.com.fiap.techchallenge.api.core.utils.entity.JpaBaseEntity;
+import br.com.fiap.techchallenge.api.role.common.domain.entity.JpaRoleEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,5 +26,9 @@ public class JpaUsuarioEntity extends JpaBaseEntity {
 
     @Column(unique = true, length = 11)
     private String cpf;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "role_id", nullable = false)
+    private JpaRoleEntity jpaRoleEntity;
 
 }

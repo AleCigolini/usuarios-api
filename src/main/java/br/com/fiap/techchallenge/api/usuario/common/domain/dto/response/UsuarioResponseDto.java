@@ -25,4 +25,7 @@ public class UsuarioResponseDto {
 
     @Schema(description = "Data de atualização do usuario", example = "2023-01-01T10:00:00Z")
     private OffsetDateTime dataAtualizacao;
+
+    @Schema(description = "Role do usuário", example = "USUARIO")
+    private String role;
 }
