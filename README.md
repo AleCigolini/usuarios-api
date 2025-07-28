@@ -1,4 +1,4 @@
-# Tech Challenge - Sistema de Pedidos
+# Tech Challenge - Sistema de Usuários
 
 ## Visão Geral
 Este projeto é uma API REST desenvolvida utilizando tecnologias modernas do ecossistema Java/Spring para gerenciamento de usuários. O sistema foi construído seguindo as melhores práticas de desenvolvimento e arquitetura de software.
