@@ -1,4 +1,4 @@
-# Tech Challenge - Sistema de Usuários
+# Tech Challenge - Sistema de Pedidos
 
 ## Visão Geral
 Este projeto é uma API REST desenvolvida utilizando tecnologias modernas do ecossistema Java/Spring para gerenciamento de usuários. O sistema foi construído seguindo as melhores práticas de desenvolvimento e arquitetura de software.
@@ -12,37 +12,68 @@ Este projeto é uma API REST desenvolvida utilizando tecnologias modernas do eco
 - Docker
 - Kubernetes
 
-## Execução em ambiente local
-### Pré-requisitos
-- Ter o Docker instalado e em execução. Para mais informações:
-  - Windows: https://docs.docker.com/engine/install/ubuntu/
-  - Linux: https://docs.docker.com/desktop/setup/install/windows-install/
+## Estrutura do Projeto
+O projeto segue uma arquitetura moderna e organizada, contendo:
+- `/src` - Código fonte da aplicação
+- `/kubernetes` - Arquivos de configuração para deploy em Kubernetes
+- `/assets` - Recursos estáticos do projeto
+- `Dockerfile` e `docker-compose.yml` - Configurações para containerização
+- `.env` - Arquivo para variáveis de ambiente
 
-### Execução
-1. Clone o projeto para sua máquina:
-```
-git clone https://github.com/AleCigolini/fiap-tech-challenge-02.git
-```
-2. Acesse o diretório do projeto clonado e execute:
-```
-docker-compose up -d
-```
+## Funcionalidades Principais
+1. Gerenciamento de Usuários
+2. Gerenciamento de papéis de usuários
+3. APIs RESTful para integração
 
-Será inicializado 3 contêineres:
-- Aplicação Java
-- Flyway (Inicializar estrutura de banco de dados)
-- PostgreSQL
+## Infraestrutura
+- O projeto está preparado para containerização com Docker
+- Suporte a orquestração com Kubernetes
+- Configurações de CI/CD através do diretório `.github`
 
-Segue URL do banco de dados abaixo. Credenciais para acesso estão no arquivo .env do projeto.
-```
-jdbc:postgresql://localhost:5432/techchallenge
-```
+## Requisitos para Execução
+- JDK 21
+- Maven
+- Docker (opcional)
+- Kubernetes (opcional)
 
-### Visualização do Swagger
-Com a aplicação rodando, via navegador de sua preferência, acesse a URL:
-```
-http://localhost:8080
-```
+## Como Executar
+1. Clone o repositório
+2. Configure as variáveis de ambiente no arquivo `.env`
+3. Execute utilizando Maven:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+
+   Ou via Docker:
+   ```bash
+   docker-compose up
+   ```
+4. Acesse `http://localhost:8080` e terá acesso ao Swagger da aplicação
+
+## Cobertura Sonar
+<img width="2041" height="956" alt="image" src="https://github.com/user-attachments/assets/f5ed48f6-5332-411c-b7ce-416214742965" />
+
+
+## BDD - Behavior-Driven Development
+Funcionalidade: Identificação do Cliente
+
+Como um cliente do autoatendimento de um fast-food
+<br>
+Quero me identificar apenas com meu CPF
+<br>
+Para que eu seja autenticado e possa realizar um pedido vinculado ao meu cadastro
+
+Cenário: Identificar cliente por CPF no início da jornada
+<br>
+Dado que o cliente informe um CPF válido
+<br>
+Quando a jornada de autoatendimento for iniciada
+<br>
+Então o sistema deve buscar o cliente pelo CPF
+<br>
+E criar um novo cadastro se ele não existir
+<br>
+E disponibilizar a continuidade do pedido vinculado ao cliente identificado
 
 ## Arquitetura
 Clean Archtecture.
