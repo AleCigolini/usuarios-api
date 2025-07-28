@@ -1,15 +1,48 @@
-# Tech Challenge 03 - Autoatendimento de Fast Food
-## Colaboradores
-- Alessandro Cigolini
-- Carlos Ferreira
-- Josinaldo Fontes
-- Sandro Nascimento
+# Tech Challenge - Sistema de Usuários
 
-## Objetivo
-Desenvolvida para otimizar a experiência do usuario e a gestão da lanchonete, esta aplicação backend atua como o coração do sistema de autoatendimento. 
-Responsável por administrar de forma eficiente e segura todas as operações, desde a criação e gestão de produtos até o processamento de pedidos e a manutenção de um banco de dados completo sobre os usuarios. 
-Através da integração com o sistema de frente de loja, a aplicação garante a disponibilidade de informações precisas e atualizadas, proporcionando ao usuario autonomia na escolha e personalização dos pedidos, 
-e à lanchonete, uma ferramenta poderosa para aumentar a eficiência operacional, reduzir custos e elevar a satisfação do consumidor.
+## Visão Geral
+Este projeto é uma API REST desenvolvida utilizando tecnologias modernas do ecossistema Java/Spring para gerenciamento de usuários. O sistema foi construído seguindo as melhores práticas de desenvolvimento e arquitetura de software.
+
+## Tecnologias Utilizadas
+- Java 21
+- Spring Boot
+- Spring Data JPA
+- Spring MVC
+- Lombok
+- Docker
+- Kubernetes
+
+## Execução em ambiente local
+### Pré-requisitos
+- Ter o Docker instalado e em execução. Para mais informações:
+  - Windows: https://docs.docker.com/engine/install/ubuntu/
+  - Linux: https://docs.docker.com/desktop/setup/install/windows-install/
+
+### Execução
+1. Clone o projeto para sua máquina:
+```
+git clone https://github.com/AleCigolini/fiap-tech-challenge-02.git
+```
+2. Acesse o diretório do projeto clonado e execute:
+```
+docker-compose up -d
+```
+
+Será inicializado 3 contêineres:
+- Aplicação Java
+- Flyway (Inicializar estrutura de banco de dados)
+- PostgreSQL
+
+Segue URL do banco de dados abaixo. Credenciais para acesso estão no arquivo .env do projeto.
+```
+jdbc:postgresql://localhost:5432/techchallenge
+```
+
+### Visualização do Swagger
+Com a aplicação rodando, via navegador de sua preferência, acesse a URL:
+```
+http://localhost:8080
+```
 
 ## Arquitetura
 Clean Archtecture.
@@ -57,330 +90,3 @@ O cluster techchallenge-k8s é configurado com dois namespaces principais, cada 
     - ConfigMap: Armazena configurações do NGINX, como limites de requisições, timeouts e outras opções de personalização.
     - Secret: Armazena informações sensíveis, como certificados TLS para habilitar HTTPS.    
 *Os arquivos de configuração do Kubernetes (em formato .yml) estão organizados no diretório kubernetes/, que contém os recursos descritos no diagrama.
-
-## Execução em ambiente local
-### Pré-requisitos
-- Ter o Docker instalado e em execução. Para mais informações:
-  - Windows: https://docs.docker.com/engine/install/ubuntu/
-  - Linux: https://docs.docker.com/desktop/setup/install/windows-install/
-
-### Execução
-1. Clone o projeto para sua máquina:
-```
-git clone https://github.com/AleCigolini/fiap-tech-challenge-02.git
-```
-2. Acesse o diretório do projeto clonado e execute:
-```
-docker-compose up -d
-```
-
-Será inicializado 3 contêineres:
-- Aplicação Java
-- Flyway (Inicializar estrutura de banco de dados)
-- PostgreSQL
-
-Segue URL do banco de dados abaixo. Credenciais para acesso estão no arquivo .env do projeto.
-```
-jdbc:postgresql://localhost:5432/techchallenge
-```
-
-### Visualização do Swagger
-Com a aplicação rodando, via navegador de sua preferência, acesse a URL:
-```
-http://localhost:8080
-```
-
-## Passo a passo integração Mercado Pago
-
-### Pedido
-
-1 - Crie o pedido - POST
-```
-http://localhost:8080/pedidos
-```
-- Corpo da requisição:
-```
-{
-  "usuario": {
-    "cpf": "12022425022",
-    "email": "teste.usuario@email.com"
-  },
-  "observacao": "Tocar interfone",
-  "produtos": [
-    {
-      "quantidade": 2,
-      "idProduto": "e389406d-5531-4acf-a354-be5cc46a8ca1",
-      "observacao": "Mal passado"
-    },
-    {
-      "quantidade": 3,
-      "idProduto": "e389406d-5531-4acf-a354-be5cc46a8ca2",
-      "observacao": "Gelado"
-    },
-    {
-      "quantidade": 1,
-      "idProduto": "e389406d-5531-4acf-a354-be5cc46a8ca3"
-    }
-  ]
-} 
-```
-
-2 - Listagem dos pedidos por situação - GET
-<br/>
-2.1 - Ao filtrar por "ABERTO", será possível verificar o pedido anteriormente criado.
-
-```
-http://localhost:8080/pedidos?status=ABERTO
-```
-
-#### Pagamento
-
-3 - Pagamentos relacionados ao pedido - GET.
-<br/>
-3.1 - Existirá um pagamento como pendente visto que o pedido ainda não foi pago.
-```
-http://localhost:8080/pagamentos/pedidos/{id_do_pedido_criado}
-```
-<br/>
-
-### Mercado Pago
-
-4 - Acessar o aplicativo do mercado pago com as credenciais de teste:
-```
-Usuário: TESTUSER2078021759
-Senha: KzOb3GTTz0
-```
-
-### Pagamento
-
-5 - Gere o Qr-Code para pagamento - GET
-```
-http://localhost:8080/pagamentos/caixa/qr-code
-```
-
-6 - Com o aplicativo do mercado pago aberto, escaneie o Qr-Code e realize o pagamento.
-
-
-### Webhook fake
-
-7 - Acessar o webhook abaixo e copiar a mensagem de retorno da chamada POST contida nele.
-<br/>
-7.1 - A chamada conterá a situação do pedido como "closed".
-
-```
-https://webhook.site/#!/view/812e902e-50fb-4f4d-8369-d08924575236
-```
-
-### Webhook Pedido
-
-8 - Após copiar a mensagem de retorno do mercado pago na passo anterior, insira ela na requisição do webhook da aplicação - POST
-```
-http://localhost:8080/pedidos/webhook-mercado-pago
-```
-- O corpo da requisição será algo como:
-```
-{
-    "action": "create",
-    "application_id": "6626499642890434",
-    "data": {
-        "currency_id": "",
-        "marketplace": "NONE",
-        "status": "closed"
-    },
-    "date_created": "2025-03-17T16:28:28.296-04:00",
-    "id": "29622218613",
-    "live_mode": false,
-    "status": "closed",
-    "type": "topic_merchant_order_wh",
-    "user_id": 2307740945,
-    "version": 0
-}
-```
-
-
-### Listar pagamentos e pedidos
-
-#### Pagamento
-
-8 - Pagamentos relacionados ao pedido - GET
-<br/>
-8.1 - Terá um pagamento aprovado para o pedido.
-```
-http://localhost:8080/pagamentos/pedidos/{id_do_pedido_criado}
-```
-
-#### Pedidos
-9 - Listagem dos pedidos por situação - GET
-<br/>
-9.1 - Ao filtrar por "RECEBIDO", será possível verificar o pedido anteriormente criado.
-
-```
-http://localhost:8080/pedidos?status=RECEBIDO
-```
-
-### **Assim, terá simulado a integração com o mercado pago para geração e pagamento de um pedido.**
-
----
-## Lista de endpoints
-
-### Pedido
-
-- Retornar todos os pedidos - GET
-```
-http://localhost:8080/pedidos
-```
-
-### Produto
-
-- Retornar todos os produtos - GET
-```
-http://localhost:8080/produtos
-```
-
-- Criar produto - POST
-```
-http://localhost:8080/produtos
-```
-- Corpo da requisição:
-```
-{
-  "nome": "Exemplo produto",
-  "descricao": "Exemplo descrição",
-  "idCategoria": "4ce30a87-5654-486b-bed6-88c6f83f491a",
-  "preco": 10
-}
-```
-
-- Buscar produto por ID - GET
-```
-http://localhost:8080/produtos/d98620ab-094e-4702-a066-42c8f39caaaa
-```
-
-- Atualizar produto - PUT
-```
-http://localhost:8080/produtos/d98620ab-094e-4702-a066-42c8f39caaaa
-```
-- Corpo da requisição:
-```
-{
-  "nome": "Nome produto atualizado",
-  "descricao": "Descrição atualizada",
-  "idCategoria": "2ae01e62-6805-4095-9bc3-9b9081517b87",
-  "preco": 50
-}
-```
-
-- Excluir produto - DELETE
-```
-http://localhost:8080/produtos/d98620ab-094e-4702-a066-42c8f39caaaa
-```
-
-- Buscar produtos por categoria - GET
-```
-http://localhost:8080/produtos/categoria/d5b5a378-3862-4436-bdcc-29d8c8a2ee65
-```
-<br/>
-
-### Usuario
-- Criar usuario - POST
-```
-http://localhost:8080/usuarios
-```
-Corpo da requisição. Usuario com e-mail e CPF:
-```
-{
-  "nome": "Nome usuario",
-  "email": "teste@gmail.com",
-  "cpf": "13742443097"
-}
-```
-
-Corpo da requisição. Usuario com e-mail:
-```
-{
-  "nome": "Nome usuario",
-  "email": "teste@gmail.com",
-  "cpf": ""
-}
-```
-
-Corpo da requisição. Usuario com CPF:
-```
-{
-  "nome": "Nome usuario",
-  "email": "",
-  "cpf": "13742443097"
-}
-```
-- Buscar usuario pelo CPF - GET
-```
-http://localhost:8080/usuarios/cpf
-```
-Corpo da requisição:
-```
-{
-  "cpf": "12022425022"
-}
-```
-
-- Buscar usuario pelo E-mail - GET
-```
-http://localhost:8080/usuarios/email
-```
-Corpo da requisição:
-```
-{
-  "email": "teste.usuario@email.com"
-}
-```
-
-- Buscar usuario pelo ID - GET
-```
-http://localhost:8080/usuarios/id
-```
-Corpo da requisição:
-```
-{
-  "id": "e389406d-5531-4acf-a354-be5cc46a8cd4"
-}
-```
-
-
-<br/>
-
-### Categorias de Produto
-
-- Buscar categorias de produto - GET
-```
-http://localhost:8080/categorias-produto
-```
-
-- Criar categoria de produto - POST
-```
-http://localhost:8080/categorias-produto
-```
-```
-{
-  "nome": "Nome do Acompanhamento"
-}
-```
-
-- Buscar categoria de produto por ID - GET
-```
-http://localhost:8080/categorias-produto/e397f412-9c76-4fb5-b029-7c3a99b7e982
-```
-
-- Atualizar categoria de produto por ID - PUT
-```
-http://localhost:8080/categorias-produto/e397f412-9c76-4fb5-b029-7c3a99b7e982
-```
-```
-{
-  "nome": "Nome do Acompanhamento atualizado"
-}
-```
-
-- Excluir categoria de produto por ID - DELETE
-```
-http://localhost:8080/categorias-produto/e397f412-9c76-4fb5-b029-7c3a99b7e982
-```
