@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-app
+  name: java-app-usuario
 spec:
   replicas: 1
   strategy:
@@ -11,14 +11,14 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: java-app
+      app: java-app-usuario
   template:
     metadata:
       labels:
-        app: java-app
+        app: java-app-usuario
     spec:
       containers:
-        - name: java-app
+        - name: java-app-usuario
           image: alecigolini/fiap-techchallengeapicliente:latest
           ports:
             - containerPort: 8080
@@ -92,37 +92,37 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-app
+  name: java-app-usuario
 spec:
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
   selector:
-    app: java-app
+    app: java-app-usuario
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: java-app-ingress
+  name: java-app-usuario-ingress
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /clientes
+          - path: /usuarios(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: java-app
+                name: java-app-usuario
                 port:
                   number: 80
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: java-app-hpa
+  name: java-app-usuario-hpa
   namespace: default
 spec:
   maxReplicas: 3
@@ -130,7 +130,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind:  Deployment
-    name: java-app
+    name: java-app-usuario
   metrics:
     - type: Resource
       resource:
