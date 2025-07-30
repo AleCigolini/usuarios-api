@@ -19,10 +19,12 @@ spec:
     spec:
       containers:
         - name: java-app-usuario
-          image: alecigolini/fiap-techchallengeapicliente:latest
+          image: alecigolini/fiap-techchallengeapiusuario:latest
           ports:
             - containerPort: 8080
           env:
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: /usuarios
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: SPRING_DATASOURCE_URL
@@ -78,13 +80,13 @@ spec:
               memory: "1024Mi"
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /usuarios/actuator/health
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /usuarios/actuator/health
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 10
@@ -92,7 +94,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-app-usuario
+  name: java-app-usuario-service
 spec:
   ports:
     - protocol: TCP
@@ -106,18 +108,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: java-app-usuario-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /usuarios(/|$)(.*)
+          - path: /usuarios
             pathType: Prefix
             backend:
               service:
-                name: java-app-usuario
+                name: java-app-usuario-service
                 port:
                   number: 80
 ---
