@@ -88,11 +88,12 @@ Considerando o uso da clean archtecture foi pensada da seguinte maneira:
 ## Arquitetura Infraestrutura
 
 ### Diagrama de Fluxo
-![image](https://github.com/user-attachments/assets/0211d2e7-9e7f-486a-8005-b8a32682a7fc)
-- Dentro do Resource Group techchallenge-rg, há uma zona de DNS configurada com o domínio techchallenge.app.br, tornando-o acessível externamente.
-- Quando acessado, o tráfego é direcionado para o IP público do POD ingress-nginx-controller.
-- O Ingress Controller então roteia as requisições para o serviço interno Java App, utilizando a comunicação via Cluster IP.
-- O Java App, quando necessário, se comunica com o POD PostgreSQL, que contém a base de dados, também via Cluster IP.
+![Comunicao_Kubernetes](https://github.com/user-attachments/assets/ff35b655-1385-4738-b50d-7eb09826ff20)
+- Dentro do Resource Group techchallenge-rg, há um IP Público que acessa o APIM (Azure API Management)
+- Quando acessado e havendo configuração de suas políticas realiza a chamada para a function.
+- O Ingress Controller então roteia as requisições para os diferentes serviços internos a depender da URI chamada, utilizando a comunicação via Cluster IP.
+- As aplicações java se comunicam com seus respectivos databases utilizando a comunicação via Cluster IP.
+Obs: Para saber mais sobre o recurso Standard_B2S: https://learn.microsoft.com/pt-br/azure/virtual-machines/sizes/general-purpose/bv1-series?tabs=sizebasic
 ### Diagrama de Componente
 ![Arquitetura_Kubernetes](https://github.com/user-attachments/assets/8c5c551b-f5d1-4f37-833c-bb082a6d6594)
 O cluster k8s-fiap é configurado com dois namespaces principais, cada um com funções específicas:
