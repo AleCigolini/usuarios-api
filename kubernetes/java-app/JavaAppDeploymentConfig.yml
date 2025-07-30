@@ -19,10 +19,12 @@ spec:
     spec:
       containers:
         - name: java-app-usuario
-          image: alecigolini/fiap-techchallengeapicliente:latest
+          image: alecigolini/fiap-techchallengeapiusuario:latest
           ports:
             - containerPort: 8080
           env:
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: /usuarios
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: SPRING_DATASOURCE_URL
@@ -33,6 +35,18 @@ spec:
                   name: app-secret
                   key: POSTGRES_USER
             - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: POSTGRES_PASSWORD
+            - name: SPRING_FLYWAY_URL
+              value: jdbc:postgresql://cliente-dev.postgres.database.azure.com:5432/postgres
+            - name: SPRING_FLYWAY_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: POSTGRES_USER
+            - name: SPRING_FLYWAY_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: app-secret
@@ -66,13 +80,13 @@ spec:
               memory: "1024Mi"
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /usuarios/actuator/health
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /usuarios/actuator/health
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 10
@@ -80,7 +94,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-app-usuario
+  name: java-app-usuario-service
 spec:
   ports:
     - protocol: TCP
@@ -99,11 +113,11 @@ spec:
   rules:
     - http:
         paths:
-          - path: /usuarios(/|$)(.*)
+          - path: /usuarios
             pathType: Prefix
             backend:
               service:
-                name: java-app-usuario
+                name: java-app-usuario-service
                 port:
                   number: 80
 ---

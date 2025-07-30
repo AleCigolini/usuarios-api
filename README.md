@@ -88,16 +88,17 @@ Considerando o uso da clean archtecture foi pensada da seguinte maneira:
 ## Arquitetura Infraestrutura
 
 ### Diagrama de Fluxo
-![image](https://github.com/user-attachments/assets/0211d2e7-9e7f-486a-8005-b8a32682a7fc)
-- Dentro do Resource Group techchallenge-rg, há uma zona de DNS configurada com o domínio techchallenge.app.br, tornando-o acessível externamente.
-- Quando acessado, o tráfego é direcionado para o IP público do POD ingress-nginx-controller.
-- O Ingress Controller então roteia as requisições para o serviço interno Java App, utilizando a comunicação via Cluster IP.
-- O Java App, quando necessário, se comunica com o POD PostgreSQL, que contém a base de dados, também via Cluster IP.
+![Comunicao_Kubernetes](https://github.com/user-attachments/assets/ff35b655-1385-4738-b50d-7eb09826ff20)
+- Dentro do Resource Group techchallenge-rg, há um IP Público que acessa o APIM (Azure API Management)
+- Quando acessado e havendo configuração de suas políticas realiza a chamada para a function.
+- O Ingress Controller então roteia as requisições para os diferentes serviços internos a depender da URI chamada, utilizando a comunicação via Cluster IP.
+- As aplicações java se comunicam com seus respectivos databases utilizando a comunicação via Cluster IP.
+Obs: Para saber mais sobre o recurso Standard_B2S: https://learn.microsoft.com/pt-br/azure/virtual-machines/sizes/general-purpose/bv1-series?tabs=sizebasic
 ### Diagrama de Componente
-![image](https://github.com/user-attachments/assets/26923c74-d144-4001-88e0-a3d90be58a36)
-O cluster techchallenge-k8s é configurado com dois namespaces principais, cada um com funções específicas:
+![Arquitetura_Kubernetes](https://github.com/user-attachments/assets/8c5c551b-f5d1-4f37-833c-bb082a6d6594)
+O cluster k8s-fiap é configurado com dois namespaces principais, cada um com funções específicas:
 - default: Namespace onde as aplicações principais são implantadas e gerenciadas, contendo os PODs:
-  - java-app: aplicação principal que contém as APIs do sistema.
+  - java-app-*: microsserviço presente no cluster.
     - Ingress: Configurado para gerenciar o tráfego de entrada direcionado à aplicação Java.
     - Cluster IP: Endereço IP interno para comunicação dentro do cluster.
     - Deployment: Gerencia a implantação e a escalabilidade da aplicação Java.
@@ -107,11 +108,6 @@ O cluster techchallenge-k8s é configurado com dois namespaces principais, cada 
       - Mínimo de 1 e máximo de 3 réplicas.
       - Escala a partir da métrica de uso de CPU atingir 70%.
     - Role HPA: Define as permissões necessárias para que o HPA acesse métricas do cluster (como CPU e memória) para tomar decisões de escalabilidade.
-  - postgress: hospeda o banco de dados PostgreeSQL usado para o armazenamento de dados.
-    - Stateful.
-    - Volume: utilizado para o armazenamento dos dados.
-    - Cluster IP:  Endereço IP interno para comunicação com outros pods no cluster.
-    - Secret: contém as credenciais do banco de dados.
 - ingress-basic: é responsável por gerenciar o tráfego externo e rotear as requisições para os serviços no namespace default.
   - ingress-nginx-controller: Executa o controlador NGINX Ingress, que atua como ponto de entrada para requisições externas e roteia o tráfego para os serviços apropriados no namespace default.
     - Ingress: Define as regras de roteamento para requisições externas (por exemplo, rotear requisições para o serviço do java-app).
