@@ -1,4 +1,4 @@
-# Tech Challenge - Sistema de Usuários
+# Hackaton - Sistema de Usuários
 
 ## Visão Geral
 Este projeto é uma API REST desenvolvida utilizando tecnologias modernas do ecossistema Java/Spring para gerenciamento de usuários. O sistema foi construído seguindo as melhores práticas de desenvolvimento e arquitetura de software.
@@ -52,28 +52,6 @@ O projeto segue uma arquitetura moderna e organizada, contendo:
 
 ## Cobertura Sonar
 <img width="2041" height="956" alt="image" src="https://github.com/user-attachments/assets/f5ed48f6-5332-411c-b7ce-416214742965" />
-
-
-## BDD - Behavior-Driven Development
-Funcionalidade: Identificação do Cliente
-
-Como um cliente do autoatendimento de um fast-food
-<br>
-Quero me identificar apenas com meu CPF
-<br>
-Para que eu seja autenticado e possa realizar um pedido vinculado ao meu cadastro
-
-Cenário: Identificar cliente por CPF no início da jornada
-<br>
-Dado que o cliente informe um CPF válido
-<br>
-Quando a jornada de autoatendimento for iniciada
-<br>
-Então o sistema deve buscar o cliente pelo CPF
-<br>
-E criar um novo cadastro se ele não existir
-<br>
-E disponibilizar a continuidade do pedido vinculado ao cliente identificado
 
 ## Arquitetura
 Clean Archtecture.
