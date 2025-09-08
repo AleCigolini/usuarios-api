@@ -52,6 +52,15 @@ public class ConsultarUsuarioUseCaseImpl implements ConsultarUsuarioUseCase {
         return isUsuariosEmpty ? null : usuarios.getFirst();
     }
 
+    @Override
+    public Usuario buscarUsuarioPorLogin(String login, Boolean throwExceptionWhenNotFound) {
+        if (login == null) {
+            throw new UsuarioValidacaoException("O campo login deve ser informado.");
+        }
+
+        return usuarioGateway.buscarUsuarioPorLogin(login).orElse(null);
+    }
+
     private List<Usuario> buscaUsuariosEmailCpf(Cpf cpf, Email email) {
         if (cpf == null && email == null) {
             throw new UsuarioValidacaoException("Pelo menos um dos campos (cpf ou email) deve ser informado.");

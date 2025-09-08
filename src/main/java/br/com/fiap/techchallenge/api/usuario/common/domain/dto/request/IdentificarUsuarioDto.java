@@ -11,4 +11,12 @@ public class IdentificarUsuarioDto {
     @NotBlank
     @NotNull
     private String cpf;
+
+    @NotBlank
+    @NotNull
+    private String login;
+
+    @NotBlank
+    @NotNull
+    private String senha;
 }

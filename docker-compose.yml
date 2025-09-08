@@ -24,7 +24,7 @@ services:
       FLYWAY_USER: ${POSTGRES_USER}
       FLYWAY_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./migration:/flyway/sql
+      - ./src/main/resources/db/migration:/flyway/sql
     networks:
       - dev_network
 

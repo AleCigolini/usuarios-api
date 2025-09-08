@@ -14,4 +14,6 @@ public interface UsuarioGateway {
     Optional<Usuario> buscarUsuarioPorId(UUID id);
     List<Usuario> buscarUsuarioPorEmail(Email email);
     List<Usuario> buscarUsuarioPorEmailECpf(Email email, Cpf cpf);
+
+    Optional<Usuario> buscarUsuarioPorLogin(String login);
 }
