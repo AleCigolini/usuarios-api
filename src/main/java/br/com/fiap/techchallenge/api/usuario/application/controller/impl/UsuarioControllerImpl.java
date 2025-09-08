@@ -33,6 +33,7 @@ import br.com.fiap.techchallenge.api.usuario.domain.Usuario;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -93,6 +94,10 @@ public class UsuarioControllerImpl implements UsuarioController {
         Usuario usuarioParametros = requestUsuarioMapper.requestDtoToDomain(identificarUsuarioDto);
         Usuario usuarioExistente = consultarUsuarioUseCase.buscarUsuarioPorLogin(usuarioParametros.getLogin(), false);
         if (usuarioExistente != null) {
+            if (!Objects.equals(usuarioExistente.getCpf().getValue(), identificarUsuarioDto.getCpf())) {
+                throw new UsuarioValidacaoException("Login " + identificarUsuarioDto.getLogin() + " já cadastrado para outro CPF.");
+            }
+
             Boolean isSenhaValida = validarSenhaUsuarioUseCase.isSenhaValida(usuarioExistente.getSenha(), identificarUsuarioDto.getSenha());
             if (!isSenhaValida) {
                 throw new UsuarioValidacaoException("Senha incorreta informada para o login: " + identificarUsuarioDto.getLogin());

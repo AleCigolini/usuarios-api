@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +28,9 @@ class SalvarUsuarioUseCaseImplTest {
 
     @Mock
     private AuthenticationGateway authenticationGateway;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private SalvarUsuarioUseCaseImpl salvarUsuarioUseCase;
@@ -44,6 +48,7 @@ class SalvarUsuarioUseCaseImplTest {
         when(usuarioGateway.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(Collections.emptyList());
         when(authenticationGateway.isUsuarioExistente(usuario)).thenReturn(false);
         when(usuarioGateway.salvarUsuario(usuario)).thenReturn(usuario);
+        when(passwordEncoder.encode(any())).thenReturn("encoded");
 
         Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario, new Role());
 
@@ -60,6 +65,7 @@ class SalvarUsuarioUseCaseImplTest {
         when(usuarioGateway.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(Collections.emptyList());
         when(authenticationGateway.isUsuarioExistente(usuario)).thenReturn(false);
         when(usuarioGateway.salvarUsuario(usuario)).thenReturn(usuario);
+        when(passwordEncoder.encode(any())).thenReturn("encoded");
 
         Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario, new Role());
 
@@ -76,6 +82,7 @@ class SalvarUsuarioUseCaseImplTest {
         when(usuarioGateway.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(Collections.emptyList());
         when(authenticationGateway.isUsuarioExistente(usuario)).thenReturn(true);
         when(usuarioGateway.salvarUsuario(usuario)).thenReturn(usuario);
+        when(passwordEncoder.encode(any())).thenReturn("encoded");
 
         Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario, new Role());
 
