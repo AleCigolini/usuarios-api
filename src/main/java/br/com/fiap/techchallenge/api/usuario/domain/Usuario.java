@@ -12,6 +12,8 @@ public class Usuario extends DominioBase {
     private String nome;
     private Email email;
     private Cpf cpf;
+    private String login;
+    private String senha;
     private Role role;
 
 
@@ -45,6 +47,22 @@ public class Usuario extends DominioBase {
 
     public void setCpf(Cpf cpf) {
         this.cpf = cpf;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public Role getRole() {

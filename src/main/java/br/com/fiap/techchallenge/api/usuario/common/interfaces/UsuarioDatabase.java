@@ -12,4 +12,6 @@ public interface UsuarioDatabase {
     Optional<JpaUsuarioEntity> buscarUsuarioPorId(UUID id);
     List<JpaUsuarioEntity> buscarUsuarioPorEmail(String email);
     List<JpaUsuarioEntity> buscarUsuarioPorEmailECpf(String email, String cpf);
+
+    Optional<JpaUsuarioEntity> buscarUsuarioPorLogin(String login);
 }

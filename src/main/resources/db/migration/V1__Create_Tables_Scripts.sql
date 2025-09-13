@@ -20,10 +20,12 @@ CREATE TABLE usuario (
     nome VARCHAR(255),
     email VARCHAR(255) UNIQUE,
     cpf VARCHAR(11) UNIQUE,
+    login VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
     data_criacao TIMESTAMP DEFAULT now(),
     data_atualizacao TIMESTAMP DEFAULT now(),
     role_id VARCHAR(100) REFERENCES role(role) ON DELETE SET NULL
 );
 
-INSERT INTO usuario (id, nome, cpf, role_id)
-    VALUES ('e389406d-5531-4acf-a354-be5cc46a8cd4', 'Usuário padrão do sistema', '00000000000', 'USUARIO');
+INSERT INTO usuario (id, nome, cpf, login, senha, role_id)
+    VALUES ('e389406d-5531-4acf-a354-be5cc46a8cd4', 'Usuário padrão do sistema', '00000000000', 'admin', '$2a$12$waEH2aHEELRZu2z1iGDxqeKb1eBRB6kzzZSfeQ60RLf4tovEBQgXu', 'USUARIO');

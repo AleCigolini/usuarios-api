@@ -40,4 +40,9 @@ public class UsuarioJpaAdapter implements UsuarioDatabase {
         return jpaUsuarioRepository.findByEmailAndCpf(email, cpf);
     }
 
+    @Override
+    public Optional<JpaUsuarioEntity> buscarUsuarioPorLogin(String login) {
+        return jpaUsuarioRepository.findByLogin(login);
+    }
+
 }

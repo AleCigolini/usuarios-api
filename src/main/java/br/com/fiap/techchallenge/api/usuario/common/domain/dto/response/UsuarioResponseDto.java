@@ -20,6 +20,12 @@ public class UsuarioResponseDto {
     @Schema(description = "CPF do usuario", example = "12022425022")
     private String cpf;
 
+    @Schema(description = "Login do usuario", example = "teste123")
+    private String login;
+
+    @Schema(description = "Senha do usuario", example = "$2a$12$rgMPW8nNj5zUyfcgFSq8qOVqVsNuenUXPmxj0BqyD8BDvt.saEgPK")
+    private String senha;
+
     @Schema(description = "Data de criação do usuario", example = "2023-01-01T10:00:00Z")
     private OffsetDateTime dataCriacao;
 

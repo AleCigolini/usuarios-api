@@ -6,8 +6,6 @@ import br.com.fiap.techchallenge.api.core.utils.domain.Email;
 import com.microsoft.graph.models.User;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphApiUtilsTest {
@@ -17,6 +15,8 @@ class GraphApiUtilsTest {
         Usuario usuario = new Usuario();
         usuario.setCpf(new Cpf("89670770092"));
         usuario.setEmail(new Email("teste@teste.com"));
+        usuario.setLogin("teste");
+        usuario.setSenha("encoded");
 
         String tenantName = "tenant.com";
 
@@ -27,7 +27,7 @@ class GraphApiUtilsTest {
         assertEquals("89670770092", user.getMailNickname());
         assertNotNull(user.getPasswordProfile());
         assertNotEquals(Boolean.TRUE, user.getPasswordProfile().getForceChangePasswordNextSignIn());
-        assertTrue(isUUID(user.getPasswordProfile().getPassword()));
+        assertNotNull(user.getPasswordProfile().getPassword());
         assertEquals(1, user.getIdentities().size());
         assertEquals("emailAddress", user.getIdentities().get(0).getSignInType());
         assertEquals("tenant.com", user.getIdentities().get(0).getIssuer());
@@ -41,6 +41,8 @@ class GraphApiUtilsTest {
         Usuario usuario = new Usuario();
         usuario.setCpf(null);
         usuario.setEmail(new Email("teste@teste.com"));
+        usuario.setLogin("teste");
+        usuario.setSenha("encoded");
 
         String tenantName = "tenant.com";
 
@@ -51,7 +53,7 @@ class GraphApiUtilsTest {
         assertEquals("testetestecom", user.getMailNickname());
         assertNotNull(user.getPasswordProfile());
         assertNotEquals(Boolean.TRUE, user.getPasswordProfile().getForceChangePasswordNextSignIn());
-        assertTrue(isUUID(user.getPasswordProfile().getPassword()));
+        assertNotNull(user.getPasswordProfile().getPassword());
         assertEquals(1, user.getIdentities().size());
         assertEquals("emailAddress", user.getIdentities().get(0).getSignInType());
         assertEquals("tenant.com", user.getIdentities().get(0).getIssuer());
@@ -84,14 +86,5 @@ class GraphApiUtilsTest {
         String resultado = GraphApiUtils.gerarEmailTenant(usuario, tenantName);
 
         assertEquals("testetestecom@tenant.com", resultado);
-    }
-
-    private boolean isUUID(String valor) {
-        try {
-            UUID.fromString(valor);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 }

@@ -23,6 +23,7 @@ import br.com.fiap.techchallenge.api.usuario.domain.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
@@ -40,6 +41,7 @@ public class UsuarioControllerImplTest {
     private UsuarioAuthentication usuarioAuthentication;
     private RoleDatabase roleDatabase;
     private DatabaseRoleMapper databaseRoleMapper;
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
@@ -48,6 +50,7 @@ public class UsuarioControllerImplTest {
         requestUsuarioMapper = mock(RequestUsuarioMapper.class);
         usuarioPresenter = mock(UsuarioPresenter.class);
         usuarioAuthentication = mock(UsuarioAuthentication.class);
+        passwordEncoder = mock(PasswordEncoder.class);
     }
 
     @Test
@@ -75,7 +78,8 @@ public class UsuarioControllerImplTest {
                     usuarioPresenter,
                     usuarioAuthentication,
                     roleDatabase,
-                    databaseRoleMapper
+                    databaseRoleMapper,
+                    passwordEncoder
             );
 
             UsuarioResponseDto response = controller.buscarUsuarioPorCpf("12697331093");
@@ -117,7 +121,8 @@ public class UsuarioControllerImplTest {
                     usuarioPresenter,
                     usuarioAuthentication,
                     roleDatabase,
-                    databaseRoleMapper
+                    databaseRoleMapper,
+                    passwordEncoder
             );
 
             UsuarioRequestDto dto = new UsuarioRequestDto(); // Popule conforme necessário
@@ -152,7 +157,8 @@ public class UsuarioControllerImplTest {
                     usuarioPresenter,
                     usuarioAuthentication,
                     roleDatabase,
-                    databaseRoleMapper
+                    databaseRoleMapper,
+                    passwordEncoder
             );
 
             UsuarioResponseDto response = controller.buscarUsuarioPorEmail("email@teste.com");
@@ -186,7 +192,8 @@ public class UsuarioControllerImplTest {
                     usuarioPresenter,
                     usuarioAuthentication,
                     roleDatabase,
-                    databaseRoleMapper
+                    databaseRoleMapper,
+                    passwordEncoder
             );
 
             UsuarioResponseDto response = controller.buscarUsuarioPorId(UUID.randomUUID());
@@ -230,7 +237,8 @@ public class UsuarioControllerImplTest {
                     usuarioPresenter,
                     usuarioAuthentication,
                     roleDatabase,
-                    databaseRoleMapper
+                    databaseRoleMapper,
+                    passwordEncoder
             );
 
             UsuarioResponseDto response = controller.identificarUsuario(new IdentificarUsuarioDto());
@@ -274,7 +282,8 @@ public class UsuarioControllerImplTest {
                     usuarioPresenter,
                     usuarioAuthentication,
                     roleDatabase,
-                    databaseRoleMapper
+                    databaseRoleMapper,
+                    passwordEncoder
             );
 
             UsuarioResponseDto response = controller.identificarUsuario(new IdentificarUsuarioDto());

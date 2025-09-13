@@ -1,7 +1,7 @@
 package br.com.fiap.techchallenge.api.usuario.infrastructure.authetication.utils;
 
-import br.com.fiap.techchallenge.api.usuario.domain.Usuario;
 import br.com.fiap.techchallenge.api.core.utils.functions.ValidatorUtils;
+import br.com.fiap.techchallenge.api.usuario.domain.Usuario;
 import com.microsoft.graph.models.ObjectIdentity;
 import com.microsoft.graph.models.PasswordProfile;
 import com.microsoft.graph.models.User;
@@ -12,7 +12,6 @@ import com.microsoft.kiota.serialization.UntypedString;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public final class GraphApiUtils {
     public static User gerarUsuarioAzureAd(Usuario usuario, String tenantName) {
@@ -31,7 +30,6 @@ public final class GraphApiUtils {
         }
 
         newUser.setIdentities(Collections.singletonList(identity));
-        gerarSenhaUsuario(newUser);
         return newUser;
     }
 
@@ -53,14 +51,16 @@ public final class GraphApiUtils {
         newUser.setDisplayName(buscarCpfOuEmail(usuario));
         newUser.setMailNickname(userEmail.split("@")[0]);
         newUser.setUserPrincipalName(userEmail);
+        newUser.setPasswordProfile(montarSenhaUsuario(usuario.getSenha()));
         return newUser;
     }
 
-    private static void gerarSenhaUsuario(User newUser) {
+    private static PasswordProfile montarSenhaUsuario(String senhaUsuario) {
         PasswordProfile passwordProfile = new PasswordProfile();
-        passwordProfile.setPassword(UUID.randomUUID().toString());
+        passwordProfile.setPassword(senhaUsuario);
         passwordProfile.setForceChangePasswordNextSignIn(false);
-        newUser.setPasswordProfile(passwordProfile);
+
+        return passwordProfile;
     }
 
     private static void adicionarCpfUsuario(Usuario usuario, User newUser) {

@@ -8,7 +8,13 @@ import lombok.Data;
 @Data
 public class IdentificarUsuarioDto {
     @Cpf
+    private String cpf;
+
     @NotBlank
     @NotNull
-    private String cpf;
+    private String login;
+
+    @NotBlank
+    @NotNull
+    private String senha;
 }

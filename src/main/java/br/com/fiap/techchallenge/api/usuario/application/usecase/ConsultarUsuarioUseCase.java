@@ -14,4 +14,5 @@ public interface ConsultarUsuarioUseCase {
     Usuario buscarUsuarioPorEmail(Email email);
 
     Usuario buscarUsuarioPorEmailCpf(Cpf cpf, Email email, Boolean throwExceptionWhenNotFound);
+    Usuario buscarUsuarioPorLogin(String login, Boolean throwExceptionWhenNotFound);
 }

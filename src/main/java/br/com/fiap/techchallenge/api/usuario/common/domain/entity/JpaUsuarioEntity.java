@@ -27,6 +27,12 @@ public class JpaUsuarioEntity extends JpaBaseEntity {
     @Column(unique = true, length = 11)
     private String cpf;
 
+    @Column(unique = true)
+    private String login;
+
+    @Column
+    private String senha;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private JpaRoleEntity jpaRoleEntity;

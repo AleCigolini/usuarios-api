@@ -7,6 +7,7 @@ import br.com.fiap.techchallenge.api.usuario.application.usecase.SalvarUsuarioUs
 import br.com.fiap.techchallenge.api.usuario.common.domain.exception.UsuarioValidacaoException;
 import br.com.fiap.techchallenge.api.usuario.domain.Usuario;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,15 +19,22 @@ import java.util.function.Function;
 public class SalvarUsuarioUseCaseImpl implements SalvarUsuarioUseCase {
     private UsuarioGateway usuarioGateway;
     private AuthenticationGateway authenticationGateway;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Usuario salvarUsuario(Usuario usuario, Role role) {
         this.validarUsuarioExistente(usuario);
+        encriptarSenha(usuario);
         cadastrarUsuarioAutenticacao(usuario);
 
         usuario.setRole(role);
 
         return usuarioGateway.salvarUsuario(usuario);
+    }
+
+    private void encriptarSenha(Usuario usuario) {
+        String senhaEncriptada = passwordEncoder.encode(usuario.getSenha());
+        usuario.setSenha(senhaEncriptada);
     }
 
     private void cadastrarUsuarioAutenticacao(Usuario usuario) {
@@ -38,8 +46,13 @@ public class SalvarUsuarioUseCaseImpl implements SalvarUsuarioUseCase {
     private void validarUsuarioExistente(Usuario usuario) {
         List<String> erros = new ArrayList<>();
 
-        validarDuplicidade(usuario.getCpf(), usuarioGateway::buscarUsuarioPorCpf, "Já existe um usuario cadastrado com o CPF informado.", erros);
-        validarDuplicidade(usuario.getEmail(), usuarioGateway::buscarUsuarioPorEmail, "Já existe um usuario cadastrado com o e-mail informado.", erros);
+        if (usuario.getCpf() != null) {
+            validarDuplicidade(usuario.getCpf(), usuarioGateway::buscarUsuarioPorCpf, "Já existe um usuario cadastrado com o CPF informado.", erros);
+        }
+        if(usuario.getEmail() != null) {
+            validarDuplicidade(usuario.getEmail(), usuarioGateway::buscarUsuarioPorEmail, "Já existe um usuario cadastrado com o e-mail informado.", erros);
+        }
+        usuarioGateway.buscarUsuarioPorLogin(usuario.getLogin()).ifPresent(usuarioEncontrado -> erros.add("Já existe um usuario cadastrado com o login informado."));
 
         if (!erros.isEmpty()) {
             throw new UsuarioValidacaoException(String.join(", ", erros));
