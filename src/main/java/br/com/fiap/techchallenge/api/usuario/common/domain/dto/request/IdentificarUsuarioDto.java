@@ -8,8 +8,6 @@ import lombok.Data;
 @Data
 public class IdentificarUsuarioDto {
     @Cpf
-    @NotBlank
-    @NotNull
     private String cpf;
 
     @NotBlank

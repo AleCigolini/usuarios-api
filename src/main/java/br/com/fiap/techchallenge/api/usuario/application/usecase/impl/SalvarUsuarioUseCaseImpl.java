@@ -46,8 +46,12 @@ public class SalvarUsuarioUseCaseImpl implements SalvarUsuarioUseCase {
     private void validarUsuarioExistente(Usuario usuario) {
         List<String> erros = new ArrayList<>();
 
-        validarDuplicidade(usuario.getCpf(), usuarioGateway::buscarUsuarioPorCpf, "Já existe um usuario cadastrado com o CPF informado.", erros);
-        validarDuplicidade(usuario.getEmail(), usuarioGateway::buscarUsuarioPorEmail, "Já existe um usuario cadastrado com o e-mail informado.", erros);
+        if (usuario.getCpf() != null) {
+            validarDuplicidade(usuario.getCpf(), usuarioGateway::buscarUsuarioPorCpf, "Já existe um usuario cadastrado com o CPF informado.", erros);
+        }
+        if(usuario.getEmail() != null) {
+            validarDuplicidade(usuario.getEmail(), usuarioGateway::buscarUsuarioPorEmail, "Já existe um usuario cadastrado com o e-mail informado.", erros);
+        }
         usuarioGateway.buscarUsuarioPorLogin(usuario.getLogin()).ifPresent(usuarioEncontrado -> erros.add("Já existe um usuario cadastrado com o login informado."));
 
         if (!erros.isEmpty()) {
