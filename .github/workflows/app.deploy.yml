@@ -41,8 +41,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=AleCigolini_techchallenge-api-cliente \
-            -Dsonar.organization=pos-fiap-techchallenge \
+            -Dsonar.projectKey=AleCigolini_usuarios-api \
+            -Dsonar.organization=hackaton-fiap \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.qualitygate.wait=true
 
@@ -53,10 +53,10 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t alecigolini/fiap-techchallengeapiusuario:latest .
+        run: docker build -t alecigolini/hackaton-usuariosapi:latest .
 
       - name: Push Docker image
-        run: docker push alecigolini/fiap-techchallengeapiusuario:latest
+        run: docker push alecigolini/hackaton-usuariosapi:latest
 
       - name: Azure Login
         uses: azure/login@v2
