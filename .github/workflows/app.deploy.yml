@@ -1,4 +1,4 @@
-name: Application Deployment Kubernetes
+name: App Deployment Kubernetes
 
 on:
   push:
