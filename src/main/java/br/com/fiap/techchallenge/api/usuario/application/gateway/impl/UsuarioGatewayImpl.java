@@ -55,4 +55,9 @@ public class UsuarioGatewayImpl implements UsuarioGateway {
                 .map(jpaUsuarioEntity -> mapper.toUsuario(jpaUsuarioEntity))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Usuario> buscarUsuarioPorLogin(String login) {
+        return usuarioDatabase.buscarUsuarioPorLogin(login).map(jpaUsuarioEntity -> mapper.toUsuario(jpaUsuarioEntity));
+    }
 }

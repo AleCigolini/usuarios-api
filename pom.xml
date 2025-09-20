@@ -9,10 +9,10 @@
         <relativePath/>
     </parent>
     <groupId>br.com.fiap</groupId>
-    <artifactId>techchallenge-usuario</artifactId>
+    <artifactId>usuarios-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>techchallenge-usuario</name>
-    <description>techchallenge-usuario</description>
+    <name>usuarios-api</name>
+    <description>usuarios-api</description>
     <url/>
     <licenses>
         <license/>
@@ -28,7 +28,7 @@
     </scm>
     <properties>
         <java.version>21</java.version>
-        <sonar.organization>pos-fiap-techchallenge</sonar.organization>
+        <sonar.organization>hackaton-fiap</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
