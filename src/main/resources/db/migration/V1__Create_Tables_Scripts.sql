@@ -28,4 +28,7 @@ CREATE TABLE usuario (
 );
 
 INSERT INTO usuario (id, nome, cpf, login, senha, role_id)
-    VALUES ('e389406d-5531-4acf-a354-be5cc46a8cd4', 'Usuário padrão do sistema', '00000000000', 'admin', '$2a$12$waEH2aHEELRZu2z1iGDxqeKb1eBRB6kzzZSfeQ60RLf4tovEBQgXu', 'USUARIO');
+VALUES
+    ('e389406d-5531-4acf-a354-be5cc46a8cd4', 'Usuario 01', '05297854296', 'usuario01', '$2a$12$BwH8ZJyKcnL0RjLJ1H.E3.eMz8dwNBImDZmbfrWFAty6e7k0TSex6', 'USUARIO'),
+    ('a1234567-89ab-cdef-0123-456789abcdef', 'Usuario 02', '12345678901', 'usuario02', '$2a$12$6ga/QP0JBgQlyp78Z49XaenoYxnx5AZanumIbCqRty2ncflVmo7xS', 'USUARIO'),
+    ('b2345678-90bc-def1-2345-67890bcdef12', 'Usuario 03', '23456789012', 'usuario03', '$2a$12$W3dAsoJ1b91Py2DEtlIgTumc4rgJ9rTfomwKlwGUDyJcoWLUbWF4C', 'USUARIO');

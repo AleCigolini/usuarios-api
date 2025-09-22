@@ -1,7 +1,6 @@
 package br.com.fiap.techchallenge.api.usuario.application.usecase.impl;
 
 import br.com.fiap.techchallenge.api.role.domain.Role;
-import br.com.fiap.techchallenge.api.usuario.application.gateway.AuthenticationGateway;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.UsuarioGateway;
 import br.com.fiap.techchallenge.api.usuario.application.usecase.SalvarUsuarioUseCase;
 import br.com.fiap.techchallenge.api.usuario.common.domain.exception.UsuarioValidacaoException;
@@ -18,14 +17,12 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class SalvarUsuarioUseCaseImpl implements SalvarUsuarioUseCase {
     private UsuarioGateway usuarioGateway;
-    private AuthenticationGateway authenticationGateway;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public Usuario salvarUsuario(Usuario usuario, Role role) {
         this.validarUsuarioExistente(usuario);
         encriptarSenha(usuario);
-        cadastrarUsuarioAutenticacao(usuario);
 
         usuario.setRole(role);
 
@@ -35,12 +32,6 @@ public class SalvarUsuarioUseCaseImpl implements SalvarUsuarioUseCase {
     private void encriptarSenha(Usuario usuario) {
         String senhaEncriptada = passwordEncoder.encode(usuario.getSenha());
         usuario.setSenha(senhaEncriptada);
-    }
-
-    private void cadastrarUsuarioAutenticacao(Usuario usuario) {
-        if (!authenticationGateway.isUsuarioExistente(usuario)) {
-            authenticationGateway.cadastrarUsuario(usuario);
-        }
     }
 
     private void validarUsuarioExistente(Usuario usuario) {
