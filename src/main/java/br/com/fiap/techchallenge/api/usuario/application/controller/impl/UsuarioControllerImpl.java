@@ -44,7 +44,7 @@ public class UsuarioControllerImpl implements UsuarioController {
     private final UsuarioPresenter usuarioPresenter;
 
     public UsuarioControllerImpl(UsuarioDatabase usuarioDatabase, DatabaseUsuarioMapper mapper, RequestUsuarioMapper requestUsuarioMapper,
-                                 UsuarioPresenter usuarioPresenter, UsuarioAuthentication usuarioAuthentication, RoleDatabase roleDatabase, DatabaseRoleMapper databaseRoleMapper,
+                                 UsuarioPresenter usuarioPresenter, RoleDatabase roleDatabase, DatabaseRoleMapper databaseRoleMapper,
                                  PasswordEncoder passwordEncoder) {
         this.requestUsuarioMapper = requestUsuarioMapper;
         this.usuarioPresenter = usuarioPresenter;
