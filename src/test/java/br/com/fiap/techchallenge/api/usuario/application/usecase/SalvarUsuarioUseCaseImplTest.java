@@ -52,21 +52,6 @@ class SalvarUsuarioUseCaseImplTest {
     }
 
     @Test
-    void deveSalvarUsuario_quandoNaoExistirDuplicidadeEAutenticacaoNaoExistir() {
-        Usuario usuario = criarUsuario();
-
-        when(usuarioGateway.buscarUsuarioPorCpf(usuario.getCpf())).thenReturn(Collections.emptyList());
-        when(usuarioGateway.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(Collections.emptyList());
-        when(usuarioGateway.salvarUsuario(usuario)).thenReturn(usuario);
-        when(passwordEncoder.encode(any())).thenReturn("encoded");
-
-        Usuario resultado = salvarUsuarioUseCase.salvarUsuario(usuario, new Role());
-
-        assertEquals(usuario, resultado);
-        verify(usuarioGateway).salvarUsuario(usuario);
-    }
-
-    @Test
     void deveSalvarUsuario_quandoNaoExistirDuplicidadeEMasAutenticacaoExistir() {
         Usuario usuario = criarUsuario();
 

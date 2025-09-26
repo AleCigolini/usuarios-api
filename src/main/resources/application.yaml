@@ -32,3 +32,7 @@ azure:
     tenant-name: "${AZURE_ENTRA_ID_TENANT_NAME}"
     client-id: "${AZURE_ENTRA_ID_CLIENT_ID}"
     client-secret: "${AZURE_ENTRA_ID_CLIENT_SECRET}"
+
+server:
+  servlet:
+    context-path: /usuarios

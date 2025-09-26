@@ -261,7 +261,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private String joinPath(List<Reference> references) {
-        return references.stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
+        return references.stream().map(Reference::getFieldName).collect(Collectors.joining("."));
     }
 
 }
