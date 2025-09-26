@@ -37,7 +37,6 @@ public class UsuarioControllerImplTest {
     private DatabaseUsuarioMapper databaseUsuarioMapper;
     private RequestUsuarioMapper requestUsuarioMapper;
     private UsuarioPresenter usuarioPresenter;
-    private UsuarioAuthentication usuarioAuthentication;
     private RoleDatabase roleDatabase;
     private DatabaseRoleMapper databaseRoleMapper;
     private PasswordEncoder passwordEncoder;
@@ -48,7 +47,6 @@ public class UsuarioControllerImplTest {
         databaseUsuarioMapper = mock(DatabaseUsuarioMapper.class);
         requestUsuarioMapper = mock(RequestUsuarioMapper.class);
         usuarioPresenter = mock(UsuarioPresenter.class);
-        usuarioAuthentication = mock(UsuarioAuthentication.class);
         passwordEncoder = mock(PasswordEncoder.class);
     }
 
@@ -73,7 +71,6 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication,
                     roleDatabase,
                     databaseRoleMapper,
                     passwordEncoder
@@ -114,7 +111,6 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication,
                     roleDatabase,
                     databaseRoleMapper,
                     passwordEncoder
@@ -148,7 +144,6 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication,
                     roleDatabase,
                     databaseRoleMapper,
                     passwordEncoder
@@ -181,7 +176,6 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication,
                     roleDatabase,
                     databaseRoleMapper,
                     passwordEncoder
@@ -224,7 +218,6 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication,
                     roleDatabase,
                     databaseRoleMapper,
                     passwordEncoder
@@ -267,7 +260,6 @@ public class UsuarioControllerImplTest {
                     databaseUsuarioMapper,
                     requestUsuarioMapper,
                     usuarioPresenter,
-                    usuarioAuthentication,
                     roleDatabase,
                     databaseRoleMapper,
                     passwordEncoder
