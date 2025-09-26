@@ -10,9 +10,7 @@ import br.com.fiap.techchallenge.api.role.application.usecase.impl.ConsultarRole
 import br.com.fiap.techchallenge.api.role.common.interfaces.RoleDatabase;
 import br.com.fiap.techchallenge.api.role.domain.Role;
 import br.com.fiap.techchallenge.api.usuario.application.controller.UsuarioController;
-import br.com.fiap.techchallenge.api.usuario.application.gateway.AuthenticationGateway;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.UsuarioGateway;
-import br.com.fiap.techchallenge.api.usuario.application.gateway.impl.AuthenticationGatewayImpl;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.impl.UsuarioGatewayImpl;
 import br.com.fiap.techchallenge.api.usuario.application.mapper.DatabaseUsuarioMapper;
 import br.com.fiap.techchallenge.api.usuario.application.mapper.RequestUsuarioMapper;
@@ -52,8 +50,7 @@ public class UsuarioControllerImpl implements UsuarioController {
         this.usuarioPresenter = usuarioPresenter;
         final UsuarioGateway usuarioGateway = new UsuarioGatewayImpl(usuarioDatabase, mapper, databaseRoleMapper);
         final RoleGateway roleGateway = new RoleGatewayImpl(roleDatabase, databaseRoleMapper);
-        final AuthenticationGateway authenticationGateway = new AuthenticationGatewayImpl(usuarioAuthentication);
-        this.salvarUsuarioUseCase = new SalvarUsuarioUseCaseImpl(usuarioGateway, authenticationGateway, passwordEncoder);
+        this.salvarUsuarioUseCase = new SalvarUsuarioUseCaseImpl(usuarioGateway, passwordEncoder);
         this.consultarUsuarioUseCase = new ConsultarUsuarioUseCaseImpl(usuarioGateway);
         this.validarSenhaUsuarioUseCase = new ValidarSenhaUsuarioUseCaseImpl(passwordEncoder);
         this.consultarRoleUseCase = new ConsultarRoleUseCaseImpl(roleGateway);

@@ -7,7 +7,6 @@ import br.com.fiap.techchallenge.api.role.application.usecase.impl.ConsultarRole
 import br.com.fiap.techchallenge.api.role.common.interfaces.RoleDatabase;
 import br.com.fiap.techchallenge.api.role.domain.Role;
 import br.com.fiap.techchallenge.api.usuario.application.controller.impl.UsuarioControllerImpl;
-import br.com.fiap.techchallenge.api.usuario.application.gateway.impl.AuthenticationGatewayImpl;
 import br.com.fiap.techchallenge.api.usuario.application.gateway.impl.UsuarioGatewayImpl;
 import br.com.fiap.techchallenge.api.usuario.application.mapper.DatabaseUsuarioMapper;
 import br.com.fiap.techchallenge.api.usuario.application.mapper.RequestUsuarioMapper;
@@ -58,8 +57,6 @@ public class UsuarioControllerImplTest {
         try (
                 MockedConstruction<UsuarioGatewayImpl> mockedUsuarioGateway =
                         mockConstruction(UsuarioGatewayImpl.class);
-                MockedConstruction<AuthenticationGatewayImpl> mockedAuthGateway =
-                        mockConstruction(AuthenticationGatewayImpl.class);
                 MockedConstruction<SalvarUsuarioUseCaseImpl> mockedSalvarUseCase =
                         mockConstruction(SalvarUsuarioUseCaseImpl.class);
                 MockedConstruction<ConsultarUsuarioUseCaseImpl> mockedConsultarUseCase =
@@ -93,8 +90,6 @@ public class UsuarioControllerImplTest {
         try (
                 MockedConstruction<UsuarioGatewayImpl> mockedUsuarioGateway =
                         mockConstruction(UsuarioGatewayImpl.class);
-                MockedConstruction<AuthenticationGatewayImpl> mockedAuthGateway =
-                        mockConstruction(AuthenticationGatewayImpl.class);
                 MockedConstruction<SalvarUsuarioUseCaseImpl> mockedSalvarUseCase =
                         mockConstruction(SalvarUsuarioUseCaseImpl.class, (mock, context) -> {
                             Usuario usuario = new Usuario();
@@ -137,8 +132,6 @@ public class UsuarioControllerImplTest {
         try (
                 MockedConstruction<UsuarioGatewayImpl> mockedUsuarioGateway =
                         mockConstruction(UsuarioGatewayImpl.class);
-                MockedConstruction<AuthenticationGatewayImpl> mockedAuthGateway =
-                        mockConstruction(AuthenticationGatewayImpl.class);
                 MockedConstruction<SalvarUsuarioUseCaseImpl> mockedSalvarUseCase =
                         mockConstruction(SalvarUsuarioUseCaseImpl.class);
                 MockedConstruction<ConsultarUsuarioUseCaseImpl> mockedConsultarUseCase =
@@ -172,8 +165,6 @@ public class UsuarioControllerImplTest {
         try (
                 MockedConstruction<UsuarioGatewayImpl> mockedUsuarioGateway =
                         mockConstruction(UsuarioGatewayImpl.class);
-                MockedConstruction<AuthenticationGatewayImpl> mockedAuthGateway =
-                        mockConstruction(AuthenticationGatewayImpl.class);
                 MockedConstruction<SalvarUsuarioUseCaseImpl> mockedSalvarUseCase =
                         mockConstruction(SalvarUsuarioUseCaseImpl.class);
                 MockedConstruction<ConsultarUsuarioUseCaseImpl> mockedConsultarUseCase =
@@ -207,8 +198,6 @@ public class UsuarioControllerImplTest {
         try (
                 MockedConstruction<UsuarioGatewayImpl> mockedUsuarioGateway =
                         mockConstruction(UsuarioGatewayImpl.class);
-                MockedConstruction<AuthenticationGatewayImpl> mockedAuthGateway =
-                        mockConstruction(AuthenticationGatewayImpl.class);
                 MockedConstruction<SalvarUsuarioUseCaseImpl> mockedSalvarUseCase =
                         mockConstruction(SalvarUsuarioUseCaseImpl.class);
                 MockedConstruction<ConsultarUsuarioUseCaseImpl> mockedConsultarUseCase =
@@ -252,8 +241,6 @@ public class UsuarioControllerImplTest {
         try (
                 MockedConstruction<UsuarioGatewayImpl> mockedUsuarioGateway =
                         mockConstruction(UsuarioGatewayImpl.class);
-                MockedConstruction<AuthenticationGatewayImpl> mockedAuthGateway =
-                        mockConstruction(AuthenticationGatewayImpl.class);
                 MockedConstruction<SalvarUsuarioUseCaseImpl> mockedSalvarUseCase =
                         mockConstruction(SalvarUsuarioUseCaseImpl.class);
                 MockedConstruction<ConsultarUsuarioUseCaseImpl> mockedConsultarUseCase =

@@ -28,7 +28,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://cliente-dev.postgres.database.azure.com:5432/postgres
+              value: jdbc:postgresql://users-api-dev.postgres.database.azure.com:5432/postgres
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -40,7 +40,7 @@ spec:
                   name: app-secret
                   key: POSTGRES_PASSWORD
             - name: SPRING_FLYWAY_URL
-              value: jdbc:postgresql://cliente-dev.postgres.database.azure.com:5432/postgres
+              value: jdbc:postgresql://users-api-dev.postgres.database.azure.com:5432/postgres
             - name: SPRING_FLYWAY_USER
               valueFrom:
                 secretKeyRef:
