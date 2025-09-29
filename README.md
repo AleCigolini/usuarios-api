@@ -12,7 +12,15 @@ Este projeto é uma API REST desenvolvida utilizando tecnologias modernas do eco
 - Docker
 - Kubernetes
 
-## Estrutura do Projeto
+## Arquitetura
+
+![image](https://github.com/user-attachments/assets/c8996715-f174-4611-ab40-7c1d5ba35877)
+Considerando o uso da clean archtecture foi pensada da seguinte maneira:
+- As camadas presentation/infrasctructre equivalem a Framework & Drivers, sendo a presentation responsável por capturar a entrada do usuário e a infrastrucutre pela comunicação com camadas externas.
+- A camada Application contempla as camadas Application Business Roles e Interface Adapters.
+- A camda de Entities representa a camada Domain.
+
+## Estruturação das pastas
 O projeto segue uma arquitetura moderna e organizada, contendo:
 - `/src` - Código fonte da aplicação
 - `/kubernetes` - Arquivos de configuração para deploy em Kubernetes
@@ -53,16 +61,6 @@ O projeto segue uma arquitetura moderna e organizada, contendo:
 ## Cobertura Sonar
 <img width="2041" height="956" alt="image" src="https://github.com/user-attachments/assets/f5ed48f6-5332-411c-b7ce-416214742965" />
 
-## Arquitetura
-Clean Archtecture.
-
-## Estruturação das pastas
-![image](https://github.com/user-attachments/assets/c8996715-f174-4611-ab40-7c1d5ba35877)
-Considerando o uso da clean archtecture foi pensada da seguinte maneira:
-- As camadas presentation/infrasctructre equivalem a Framework & Drivers, sendo a presentation responsável por capturar a entrada do usuário e a infrastrucutre pela comunicação com camadas externas.
-- A camada Application contempla as camadas Application Business Roles e Interface Adapters.
-- A camda de Entities representa a camada Domain.
-
 ## Arquitetura Infraestrutura
 
 ### Diagrama de Fluxo
@@ -72,6 +70,7 @@ Considerando o uso da clean archtecture foi pensada da seguinte maneira:
 - O Ingress Controller então roteia as requisições para os diferentes serviços internos a depender da URI chamada, utilizando a comunicação via Cluster IP.
 - As aplicações java se comunicam com seus respectivos databases utilizando a comunicação via Cluster IP.
 Obs: Para saber mais sobre o recurso Standard_B2S: https://learn.microsoft.com/pt-br/azure/virtual-machines/sizes/general-purpose/bv1-series?tabs=sizebasic
+
 ### Diagrama de Componente
 ![Arquitetura_Kubernetes](https://github.com/user-attachments/assets/8c5c551b-f5d1-4f37-833c-bb082a6d6594)
 O cluster k8s-fiap é configurado com dois namespaces principais, cada um com funções específicas:
