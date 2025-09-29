@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-app-usuario
+  name: usuarios-api
 spec:
   replicas: 1
   strategy:
@@ -11,14 +11,14 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: java-app-usuario
+      app: usuarios-api
   template:
     metadata:
       labels:
-        app: java-app-usuario
+        app: usuarios-api
     spec:
       containers:
-        - name: java-app-usuario
+        - name: usuarios-api
           image: alecigolini/hackaton-usuariosapi:latest
           ports:
             - containerPort: 8080
@@ -94,20 +94,20 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-app-usuario-service
+  name: usuarios-api-service
 spec:
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
   selector:
-    app: java-app-usuario
+    app: usuarios-api
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: java-app-usuario-ingress
+  name: usuarios-api-ingress
 spec:
   ingressClassName: nginx
   rules:
@@ -117,22 +117,22 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: java-app-usuario-service
+                name: usuarios-api-service
                 port:
                   number: 80
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: java-app-usuario-hpa
+  name: usuarios-api-hpa
   namespace: default
 spec:
-  maxReplicas: 3
+  maxReplicas: 2
   minReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1
     kind:  Deployment
-    name: java-app-usuario
+    name: usuarios-api
   metrics:
     - type: Resource
       resource:
