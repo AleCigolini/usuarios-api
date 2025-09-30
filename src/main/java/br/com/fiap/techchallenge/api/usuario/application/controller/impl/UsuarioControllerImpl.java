@@ -25,13 +25,13 @@ import br.com.fiap.techchallenge.api.usuario.common.domain.dto.request.Identific
 import br.com.fiap.techchallenge.api.usuario.common.domain.dto.request.UsuarioRequestDto;
 import br.com.fiap.techchallenge.api.usuario.common.domain.dto.response.UsuarioResponseDto;
 import br.com.fiap.techchallenge.api.usuario.common.domain.exception.UsuarioValidacaoException;
-import br.com.fiap.techchallenge.api.usuario.common.interfaces.UsuarioAuthentication;
 import br.com.fiap.techchallenge.api.usuario.common.interfaces.UsuarioDatabase;
 import br.com.fiap.techchallenge.api.usuario.domain.Usuario;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Controller
 public class UsuarioControllerImpl implements UsuarioController {
@@ -42,6 +42,8 @@ public class UsuarioControllerImpl implements UsuarioController {
 
     private final RequestUsuarioMapper requestUsuarioMapper;
     private final UsuarioPresenter usuarioPresenter;
+    private static final Logger LOGGER = Logger.getLogger(UsuarioControllerImpl.class.getName());
+
 
     public UsuarioControllerImpl(UsuarioDatabase usuarioDatabase, DatabaseUsuarioMapper mapper, RequestUsuarioMapper requestUsuarioMapper,
                                  UsuarioPresenter usuarioPresenter, RoleDatabase roleDatabase, DatabaseRoleMapper databaseRoleMapper,
@@ -87,11 +89,13 @@ public class UsuarioControllerImpl implements UsuarioController {
 
     @Override
     public UsuarioResponseDto identificarUsuario(IdentificarUsuarioDto identificarUsuarioDto) {
+        LOGGER.info(identificarUsuarioDto.toString());
         Usuario usuarioParametros = requestUsuarioMapper.requestDtoToDomain(identificarUsuarioDto);
         Usuario usuarioExistente = consultarUsuarioUseCase.buscarUsuarioPorLogin(usuarioParametros.getLogin(), false);
         if (usuarioExistente != null) {
             Boolean isSenhaValida = validarSenhaUsuarioUseCase.isSenhaValida(usuarioExistente.getSenha(), identificarUsuarioDto.getSenha());
             if (!isSenhaValida) {
+                LOGGER.info("Senha inválida");
                 throw new UsuarioValidacaoException("Senha incorreta informada para o login: " + identificarUsuarioDto.getLogin());
             }
             return usuarioPresenter.toResponse(usuarioExistente);
