@@ -98,6 +98,7 @@ public class UsuarioControllerImpl implements UsuarioController {
                 LOGGER.info("Senha inválida");
                 throw new UsuarioValidacaoException("Senha incorreta informada para o login: " + identificarUsuarioDto.getLogin());
             }
+            LOGGER.info("Usuario validado");
             return usuarioPresenter.toResponse(usuarioExistente);
         }
         Role role = consultarRoleUseCase.buscarRolePorNome("USUARIO");
