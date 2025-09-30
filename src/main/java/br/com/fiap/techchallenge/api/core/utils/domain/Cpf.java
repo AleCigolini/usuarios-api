@@ -10,9 +10,6 @@ public class Cpf {
     private static String CPF_CLIENTE_PADRAO = "00000000000";
 
     public Cpf(String value) {
-        if (!isValid(value) && !value.equals(CPF_CLIENTE_PADRAO)) {
-            throw new ValidacaoEntidadeException("CPF inválido");
-        }
         this.value = value;
     }
 
