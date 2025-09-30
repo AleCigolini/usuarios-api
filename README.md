@@ -12,7 +12,15 @@ Este projeto é uma API REST desenvolvida utilizando tecnologias modernas do eco
 - Docker
 - Kubernetes
 
-## Estrutura do Projeto
+## Arquitetura
+
+![image](https://github.com/user-attachments/assets/c8996715-f174-4611-ab40-7c1d5ba35877)
+Considerando o uso da clean archtecture foi pensada da seguinte maneira:
+- As camadas presentation/infrasctructre equivalem a Framework & Drivers, sendo a presentation responsável por capturar a entrada do usuário e a infrastrucutre pela comunicação com camadas externas.
+- A camada Application contempla as camadas Application Business Roles e Interface Adapters.
+- A camda de Entities representa a camada Domain.
+
+## Estruturação das pastas
 O projeto segue uma arquitetura moderna e organizada, contendo:
 - `/src` - Código fonte da aplicação
 - `/kubernetes` - Arquivos de configuração para deploy em Kubernetes
@@ -51,32 +59,23 @@ O projeto segue uma arquitetura moderna e organizada, contendo:
 4. Acesse `http://localhost:8080` e terá acesso ao Swagger da aplicação
 
 ## Cobertura Sonar
-<img width="2041" height="956" alt="image" src="https://github.com/user-attachments/assets/f5ed48f6-5332-411c-b7ce-416214742965" />
-
-## Arquitetura
-Clean Archtecture.
-
-## Estruturação das pastas
-![image](https://github.com/user-attachments/assets/c8996715-f174-4611-ab40-7c1d5ba35877)
-Considerando o uso da clean archtecture foi pensada da seguinte maneira:
-- As camadas presentation/infrasctructre equivalem a Framework & Drivers, sendo a presentation responsável por capturar a entrada do usuário e a infrastrucutre pela comunicação com camadas externas.
-- A camada Application contempla as camadas Application Business Roles e Interface Adapters.
-- A camda de Entities representa a camada Domain.
+![sonar.png](assets/images/sonar.png)
 
 ## Arquitetura Infraestrutura
 
 ### Diagrama de Fluxo
-![Comunicao_Kubernetes](https://github.com/user-attachments/assets/ff35b655-1385-4738-b50d-7eb09826ff20)
+![infra.jpg](assets/images/infra.jpg)
 - Dentro do Resource Group techchallenge-rg, há um IP Público que acessa o APIM (Azure API Management)
 - Quando acessado e havendo configuração de suas políticas realiza a chamada para a function.
 - O Ingress Controller então roteia as requisições para os diferentes serviços internos a depender da URI chamada, utilizando a comunicação via Cluster IP.
 - As aplicações java se comunicam com seus respectivos databases utilizando a comunicação via Cluster IP.
 Obs: Para saber mais sobre o recurso Standard_B2S: https://learn.microsoft.com/pt-br/azure/virtual-machines/sizes/general-purpose/bv1-series?tabs=sizebasic
+
 ### Diagrama de Componente
-![Arquitetura_Kubernetes](https://github.com/user-attachments/assets/8c5c551b-f5d1-4f37-833c-bb082a6d6594)
+![pods.jpg](assets/images/pods.jpg)
 O cluster k8s-fiap é configurado com dois namespaces principais, cada um com funções específicas:
 - default: Namespace onde as aplicações principais são implantadas e gerenciadas, contendo os PODs:
-  - java-app-*: microsserviço presente no cluster.
+  - usuarios-api: aplicação presente no cluster.
     - Ingress: Configurado para gerenciar o tráfego de entrada direcionado à aplicação Java.
     - Cluster IP: Endereço IP interno para comunicação dentro do cluster.
     - Deployment: Gerencia a implantação e a escalabilidade da aplicação Java.
